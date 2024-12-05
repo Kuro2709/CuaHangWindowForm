@@ -15,6 +15,13 @@ namespace CuaHangWindowForm.View.SanPham
             _connectionString = ConfigurationManager.ConnectionStrings["CuaHangWindowForm.Properties.Settings.ConnectionString"].ConnectionString;
         }
 
+        private void txtProductID_TextChanged(object sender, EventArgs e)
+        {
+            txtProductID.Text = txtProductID.Text.ToUpper().Replace(" ", "");
+            txtProductID.SelectionStart = txtProductID.Text.Length; // Move cursor to the end
+        }
+
+
         private void ThemSanPham_Load(object sender, EventArgs e)
         {
 

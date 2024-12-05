@@ -224,10 +224,22 @@ namespace CuaHangWindowForm.View.HoaDon
                 var unitPrice = product.Price;
                 var totalPrice = quantity * unitPrice;
 
+                // Check for duplicate product
+                foreach (DataGridViewRow row in dataGridViewInvoiceDetails.Rows)
+                {
+                    if (row.IsNewRow) continue;
+                    if (row.Cells["ProductID"].Value.ToString() == product.ProductID)
+                    {
+                        MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
+                        return;
+                    }
+                }
+
                 dataGridViewInvoiceDetails.Rows.Add(product.ProductID, product.ProductName, quantity, unitPrice, totalPrice);
                 UpdateTotalPrice();
             }
         }
+
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {

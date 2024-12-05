@@ -66,6 +66,7 @@
             this.txtProductID.Name = "txtProductID";
             this.txtProductID.Size = new System.Drawing.Size(255, 22);
             this.txtProductID.TabIndex = 3;
+            this.txtProductID.TextChanged += new System.EventHandler(this.txtProductID_TextChanged);
             // 
             // txtProductName
             // 
@@ -119,8 +120,8 @@
             this.Load += new System.EventHandler(this.ThemSanPham_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
+
     }
 }
 

@@ -215,28 +215,20 @@ namespace CuaHangWindowForm.View.HoaDon
 
                 if (selectedProduct != null)
                 {
-                    row.Cells["ProductID"].Value = selectedProduct.ProductID;
-                    row.Cells["UnitPrice"].Value = selectedProduct.Price;
-                    if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int quantity))
+                    // Check for duplicate product
+                    foreach (DataGridViewRow existingRow in dataGridViewInvoiceDetails.Rows)
                     {
-                        var totalPrice = quantity * selectedProduct.Price;
-                        row.Cells["TotalPrice"].Value = totalPrice;
-                        UpdateTotalPrice();
+                        if (existingRow.Index != row.Index && existingRow.Cells["ProductID"].Value != null &&
+                            existingRow.Cells["ProductID"].Value.ToString() == selectedProduct.ProductID)
+                        {
+                            MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
+                            comboBox.SelectedIndexChanged -= ComboBox_SelectedIndexChanged;
+                            comboBox.SelectedItem = null;
+                            comboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
+                            return;
+                        }
                     }
-                }
-            }
-        }
 
-        private void DataGridViewInvoiceDetails_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == dataGridViewInvoiceDetails.Columns["ProductName"].Index && e.RowIndex >= 0)
-            {
-                var row = dataGridViewInvoiceDetails.Rows[e.RowIndex];
-                var selectedProductName = row.Cells["ProductName"].Value?.ToString();
-                var selectedProduct = _products.FirstOrDefault(p => p.ProductName == selectedProductName);
-
-                if (selectedProduct != null)
-                {
                     row.Cells["ProductID"].Value = selectedProduct.ProductID;
                     row.Cells["UnitPrice"].Value = selectedProduct.Price;
                     if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int quantity))
@@ -260,6 +252,70 @@ namespace CuaHangWindowForm.View.HoaDon
                 row.Cells["TotalPrice"].Value = totalPrice;
                 UpdateTotalPrice();
             }
+            else if (e.ColumnIndex == dataGridViewInvoiceDetails.Columns["ProductName"].Index && e.RowIndex >= 0)
+            {
+                var row = dataGridViewInvoiceDetails.Rows[e.RowIndex];
+                var selectedProductName = row.Cells["ProductName"].Value?.ToString();
+                var selectedProduct = _products.FirstOrDefault(p => p.ProductName == selectedProductName);
+
+                if (selectedProduct != null)
+                {
+                    // Check for duplicate product
+                    foreach (DataGridViewRow existingRow in dataGridViewInvoiceDetails.Rows)
+                    {
+                        if (existingRow.Index != e.RowIndex && existingRow.Cells["ProductID"].Value != null &&
+                            existingRow.Cells["ProductID"].Value.ToString() == selectedProduct.ProductID)
+                        {
+                            MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
+                            row.Cells["ProductName"].Value = null;
+                            return;
+                        }
+                    }
+
+                    row.Cells["ProductID"].Value = selectedProduct.ProductID;
+                    row.Cells["UnitPrice"].Value = selectedProduct.Price;
+                    if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int quantity))
+                    {
+                        var totalPrice = quantity * selectedProduct.Price;
+                        row.Cells["TotalPrice"].Value = totalPrice;
+                        UpdateTotalPrice();
+                    }
+                }
+            }
+        }
+
+        private void DataGridViewInvoiceDetails_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridViewInvoiceDetails.Columns["ProductName"].Index && e.RowIndex >= 0)
+            {
+                var row = dataGridViewInvoiceDetails.Rows[e.RowIndex];
+                var selectedProductName = row.Cells["ProductName"].Value?.ToString();
+                var selectedProduct = _products.FirstOrDefault(p => p.ProductName == selectedProductName);
+
+                if (selectedProduct != null)
+                {
+                    // Check for duplicate product
+                    foreach (DataGridViewRow existingRow in dataGridViewInvoiceDetails.Rows)
+                    {
+                        if (existingRow.Index != e.RowIndex && existingRow.Cells["ProductID"].Value != null &&
+                            existingRow.Cells["ProductID"].Value.ToString() == selectedProduct.ProductID)
+                        {
+                            MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
+                            row.Cells["ProductName"].Value = null;
+                            return;
+                        }
+                    }
+
+                    row.Cells["ProductID"].Value = selectedProduct.ProductID;
+                    row.Cells["UnitPrice"].Value = selectedProduct.Price;
+                    if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int quantity))
+                    {
+                        var totalPrice = quantity * selectedProduct.Price;
+                        row.Cells["TotalPrice"].Value = totalPrice;
+                        UpdateTotalPrice();
+                    }
+                }
+            }
         }
 
         private void btnAddDetailRow_Click(object sender, EventArgs e)
@@ -271,6 +327,17 @@ namespace CuaHangWindowForm.View.HoaDon
                 var quantity = addProductForm.Quantity;
                 var unitPrice = product.Price;
                 var totalPrice = quantity * unitPrice;
+
+                // Check for duplicate product
+                foreach (DataGridViewRow row in dataGridViewInvoiceDetails.Rows)
+                {
+                    if (row.IsNewRow) continue;
+                    if (row.Cells["ProductID"].Value != null && row.Cells["ProductID"].Value.ToString() == product.ProductID)
+                    {
+                        MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
+                        return;
+                    }
+                }
 
                 dataGridViewInvoiceDetails.Rows.Add(product.ProductID, product.ProductName, quantity, unitPrice, totalPrice);
                 UpdateTotalPrice();
