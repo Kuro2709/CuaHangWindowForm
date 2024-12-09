@@ -1,17 +1,19 @@
 ﻿using System.Windows.Forms;
+using C1.Win.C1FlexGrid;
+using C1.Win.C1Input;
 
 namespace WindowsFormsApp
 {
     partial class KhachHangForm
     {
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.DataGridView dataGridViewCustomers;
-        private System.Windows.Forms.Button btnAction;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripActions;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEdit;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
-        private System.Windows.Forms.Button btnBack;
+        private C1FlexGrid dataGridViewCustomers;
+        private C1Button btnAction;
+        private ContextMenuStrip contextMenuStripActions;
+        private ToolStripMenuItem toolStripMenuItemAdd;
+        private ToolStripMenuItem toolStripMenuItemEdit;
+        private ToolStripMenuItem toolStripMenuItemDelete;
+        private C1Button btnBack;
 
         protected override void Dispose(bool disposing)
         {
@@ -25,53 +27,36 @@ namespace WindowsFormsApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.dataGridViewCustomers = new System.Windows.Forms.DataGridView();
-            this.btnAction = new System.Windows.Forms.Button();
+            this.dataGridViewCustomers = new C1.Win.C1FlexGrid.C1FlexGrid();
+            this.btnAction = new C1.Win.C1Input.C1Button();
             this.contextMenuStripActions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnBack = new System.Windows.Forms.Button();
+            this.btnBack = new C1.Win.C1Input.C1Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCustomers)).BeginInit();
             this.contextMenuStripActions.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridViewCustomers
             // 
-            this.dataGridViewCustomers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewCustomers.ColumnInfo = "10,1,0,0,0,95,Columns:";
             this.dataGridViewCustomers.Location = new System.Drawing.Point(12, 12);
             this.dataGridViewCustomers.Name = "dataGridViewCustomers";
-            this.dataGridViewCustomers.RowHeadersWidth = 51;
-            this.dataGridViewCustomers.RowTemplate.Height = 24;
-            this.dataGridViewCustomers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewCustomers.Rows.DefaultSize = 19;
+            this.dataGridViewCustomers.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row;
             this.dataGridViewCustomers.Size = new System.Drawing.Size(686, 426);
             this.dataGridViewCustomers.TabIndex = 0;
-            this.dataGridViewCustomers.ReadOnly = true;
+            this.dataGridViewCustomers.AllowEditing = false; // Make the grid read-only
 
             // Add columns
-            var customerIDColumn = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "CustomerID",
-                HeaderText = "Mã khách hàng",
-                Name = "CustomerID"
-            };
-            dataGridViewCustomers.Columns.Add(customerIDColumn);
-
-            var customerNameColumn = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "CustomerName",
-                HeaderText = "Tên khách hàng",
-                Name = "CustomerName"
-            };
-            dataGridViewCustomers.Columns.Add(customerNameColumn);
-
-            var phoneColumn = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Phone",
-                HeaderText = "Số điện thoại",
-                Name = "Phone"
-            };
-            dataGridViewCustomers.Columns.Add(phoneColumn);
+            this.dataGridViewCustomers.Cols.Count = 4;
+            this.dataGridViewCustomers.Cols[1].Caption = "Mã khách hàng";
+            this.dataGridViewCustomers.Cols[1].Name = "MaKhachHang";
+            this.dataGridViewCustomers.Cols[2].Caption = "Tên khách hàng";
+            this.dataGridViewCustomers.Cols[2].Name = "TenKhachHang";
+            this.dataGridViewCustomers.Cols[3].Caption = "Số điện thoại";
+            this.dataGridViewCustomers.Cols[3].Name = "SoDienThoai";
 
             // 
             // btnAction

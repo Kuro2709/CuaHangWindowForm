@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using CuaHangWindowForm.Models;
 using CuaHangWindowForm.View;
 using CuaHangWindowForm.View.SanPham;
+using C1.Win.C1FlexGrid;
 
 namespace WindowsFormsApp
 {
@@ -46,8 +47,13 @@ namespace WindowsFormsApp
                     }
                 }
 
-                dataGridViewProducts.DataSource = null;
-                dataGridViewProducts.DataSource = _products;
+                c1FlexGridProducts.DataSource = null;
+                c1FlexGridProducts.DataSource = _products;
+
+                // Rename columns
+                c1FlexGridProducts.Cols["ProductID"].Caption = "Mã sản phẩm";
+                c1FlexGridProducts.Cols["ProductName"].Caption = "Sản phẩm";
+                c1FlexGridProducts.Cols["Price"].Caption = "Đơn giá";
             }
             catch (Exception ex)
             {
@@ -65,9 +71,9 @@ namespace WindowsFormsApp
 
         private void btnEditProduct_Click(object sender, EventArgs e)
         {
-            if (dataGridViewProducts.SelectedRows.Count > 0)
+            if (c1FlexGridProducts.RowSel > 0)
             {
-                var selectedProduct = (ThongTinSanPham)dataGridViewProducts.SelectedRows[0].DataBoundItem;
+                var selectedProduct = (ThongTinSanPham)c1FlexGridProducts.Rows[c1FlexGridProducts.RowSel].DataSource;
                 var editProductForm = new ChinhSuaSanPham(selectedProduct);
                 editProductForm.ShowDialog();
                 LoadProducts(); // Reload products after editing
@@ -80,9 +86,9 @@ namespace WindowsFormsApp
 
         private void btnDeleteProduct_Click(object sender, EventArgs e)
         {
-            if (dataGridViewProducts.SelectedRows.Count > 0)
+            if (c1FlexGridProducts.RowSel > 0)
             {
-                var selectedProduct = (ThongTinSanPham)dataGridViewProducts.SelectedRows[0].DataBoundItem;
+                var selectedProduct = (ThongTinSanPham)c1FlexGridProducts.Rows[c1FlexGridProducts.RowSel].DataSource;
 
                 var result = MessageBox.Show("Bạn có muốn xóa sản phẩm này không?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
@@ -155,24 +161,13 @@ namespace WindowsFormsApp
             }
         }
 
-        private void dataGridViewProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void c1FlexGridProducts_CellEndEdit(object sender, RowColEventArgs e)
         {
-
-        }
-
-        private void dataGridViewProducts_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == dataGridViewProducts.Columns["ProductName"].Index)
+            if (e.Col == c1FlexGridProducts.Cols["ProductName"].Index)
             {
-                var cell = dataGridViewProducts.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                cell.Value = cell.Value.ToString().ToUpper().Replace(" ", "");
+                var cell = c1FlexGridProducts[e.Row, e.Col];
+                c1FlexGridProducts[e.Row, e.Col] = cell.ToString().ToUpper().Replace(" ", "");
             }
-        }
-
-        private void dataGridViewProducts_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }
-

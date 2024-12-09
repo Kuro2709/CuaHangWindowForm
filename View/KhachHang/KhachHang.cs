@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using CuaHangWindowForm.Models;
 using CuaHangWindowForm.View.KhachHang;
+using C1.Win.C1FlexGrid;
 
 namespace WindowsFormsApp
 {
@@ -64,9 +65,9 @@ namespace WindowsFormsApp
 
         private void btnEditCustomer_Click(object sender, EventArgs e)
         {
-            if (dataGridViewCustomers.SelectedRows.Count > 0)
+            if (dataGridViewCustomers.RowSel > 0)
             {
-                var selectedCustomer = (ThongTinKhachHang)dataGridViewCustomers.SelectedRows[0].DataBoundItem;
+                var selectedCustomer = (ThongTinKhachHang)dataGridViewCustomers.Rows[dataGridViewCustomers.RowSel].DataSource;
                 var editCustomerForm = new ChinhSuaKhachHang(selectedCustomer);
                 editCustomerForm.ShowDialog();
                 LoadCustomers(); // Reload customers after editing
@@ -79,9 +80,9 @@ namespace WindowsFormsApp
 
         private void btnDeleteCustomer_Click(object sender, EventArgs e)
         {
-            if (dataGridViewCustomers.SelectedRows.Count > 0)
+            if (dataGridViewCustomers.RowSel > 0)
             {
-                var selectedCustomer = (ThongTinKhachHang)dataGridViewCustomers.SelectedRows[0].DataBoundItem;
+                var selectedCustomer = (ThongTinKhachHang)dataGridViewCustomers.Rows[dataGridViewCustomers.RowSel].DataSource;
 
                 var result = MessageBox.Show("Bạn có muốn xóa khách hàng này không?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
@@ -136,6 +137,10 @@ namespace WindowsFormsApp
         {
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(KhachHangForm_KeyDown);
+
+            dataGridViewCustomers.Cols["CustomerID"].Caption = "Mã khách hàng";
+            dataGridViewCustomers.Cols["CustomerName"].Caption = "Tên khách hàng";
+            dataGridViewCustomers.Cols["Phone"].Caption = "Số điện thoại";
         }
 
         private void KhachHangForm_KeyDown(object sender, KeyEventArgs e)
@@ -155,3 +160,4 @@ namespace WindowsFormsApp
         }
     }
 }
+

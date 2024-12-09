@@ -3,14 +3,14 @@
     partial class ThemSanPham
     {
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label lblProductID;
-        private System.Windows.Forms.Label lblProductName;
-        private System.Windows.Forms.Label lblPrice;
-        private System.Windows.Forms.TextBox txtProductID;
-        private System.Windows.Forms.TextBox txtProductName;
-        private System.Windows.Forms.TextBox txtPrice;
-        private System.Windows.Forms.Button btnSubmit;
-        private System.Windows.Forms.Button btnCancel;
+        private C1.Win.C1Input.C1Label lblProductID;
+        private C1.Win.C1Input.C1Label lblProductName;
+        private C1.Win.C1Input.C1Label lblPrice;
+        private C1.Win.C1Input.C1TextBox txtProductID;
+        private C1.Win.C1Input.C1TextBox txtProductName;
+        private C1.Win.C1Input.C1TextBox txtPrice;
+        private C1.Win.C1Input.C1Button btnSubmit;
+        private C1.Win.C1Input.C1Button btnCancel;
 
         protected override void Dispose(bool disposing)
         {
@@ -23,14 +23,14 @@
 
         private void InitializeComponent()
         {
-            this.lblProductID = new System.Windows.Forms.Label();
-            this.lblProductName = new System.Windows.Forms.Label();
-            this.lblPrice = new System.Windows.Forms.Label();
-            this.txtProductID = new System.Windows.Forms.TextBox();
-            this.txtProductName = new System.Windows.Forms.TextBox();
-            this.txtPrice = new System.Windows.Forms.TextBox();
-            this.btnSubmit = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.lblProductID = new C1.Win.C1Input.C1Label();
+            this.lblProductName = new C1.Win.C1Input.C1Label();
+            this.lblPrice = new C1.Win.C1Input.C1Label();
+            this.txtProductID = new C1.Win.C1Input.C1TextBox();
+            this.txtProductName = new C1.Win.C1Input.C1TextBox();
+            this.txtPrice = new C1.Win.C1Input.C1TextBox();
+            this.btnSubmit = new C1.Win.C1Input.C1Button();
+            this.btnCancel = new C1.Win.C1Input.C1Button();
             this.SuspendLayout();
             // 
             // lblProductID
@@ -40,6 +40,7 @@
             this.lblProductID.Name = "lblProductID";
             this.lblProductID.Size = new System.Drawing.Size(88, 16);
             this.lblProductID.TabIndex = 0;
+            this.lblProductID.TextDetached = true; // Ensure the Text property is detached
             this.lblProductID.Text = "Mã sản phẩm";
             // 
             // lblProductName
@@ -49,6 +50,7 @@
             this.lblProductName.Name = "lblProductName";
             this.lblProductName.Size = new System.Drawing.Size(93, 16);
             this.lblProductName.TabIndex = 1;
+            this.lblProductName.TextDetached = true; // Ensure the Text property is detached
             this.lblProductName.Text = "Tên sản phẩm";
             // 
             // lblPrice
@@ -58,6 +60,7 @@
             this.lblPrice.Name = "lblPrice";
             this.lblPrice.Size = new System.Drawing.Size(28, 16);
             this.lblPrice.TabIndex = 2;
+            this.lblPrice.TextDetached = true; // Ensure the Text property is detached
             this.lblPrice.Text = "Giá";
             // 
             // txtProductID
@@ -122,6 +125,6 @@
             this.PerformLayout();
         }
 
+
     }
 }
-

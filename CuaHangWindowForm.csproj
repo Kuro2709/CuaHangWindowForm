@@ -36,6 +36,245 @@
     <StartupObject>CuaHangWindowForm.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Azure.Core">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\Azure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Identity">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\Azure.Identity.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Cryptography">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.C1Report.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.C1Report.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.C1Report.CustomFields.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.C1Report.CustomFields.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.CalcEngine">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.CalcEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Data.Entity.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Data.Entity.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.DataCollection">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.DataCollection.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.DataCollection.BindingList">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.DataCollection.BindingList.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.DataEngine">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.DataEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Excel">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.LiveLinq.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.LiveLinq.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Pdf">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.PivotEngine">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.PivotEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.PrintDocument.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.PrintDocument.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.4.6.2, Version=4.6.20242.688, Culture=neutral, PublicKeyToken=944ae1ea0e47ca04, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.Barcode.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.Barcode.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.Bitmap.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.Bitmap.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Chart.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Chart.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Chart3D.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Chart3D.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Command.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Command.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Document.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Document.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1DX.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1DX.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1DynamicHelp.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1DynamicHelp.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Editor.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Editor.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexCRI.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1FlexCRI.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexGrid.4.6.2, Version=4.6.20242.688, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1FlexGrid.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexGrid.BandedView.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1FlexGrid.BandedView.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexGrid.Classic.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1FlexGrid.Classic.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexGrid.GroupPanel.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1FlexGrid.GroupPanel.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexGrid.ImportExport.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1FlexGrid.ImportExport.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexGrid.RowDetails.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1FlexGrid.RowDetails.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexGrid.SearchPanel.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1FlexGrid.SearchPanel.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1GanttView.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1GanttView.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Gauge.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Gauge.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Input.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Input.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1InputPanel.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1InputPanel.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1List.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1List.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Schedule.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Schedule.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Schedule.Extended.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Schedule.Extended.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Sizer.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Sizer.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1SpellChecker.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1SpellChecker.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1SplitContainer.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1SplitContainer.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1SuperTooltip.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1SuperTooltip.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Themes.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Themes.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Themes.Extended.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Themes.Extended.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1TileControl.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1TileControl.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1TouchToolKit.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1TouchToolKit.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1TrueDBGrid.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1TrueDBGrid.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1TrueDBGrid.Excel.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1TrueDBGrid.Excel.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Win7Pack.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.C1Win7Pack.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.Calendar.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.Calendar.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.DashboardLayout.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.DashboardLayout.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.Data.Entity.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.Data.Entity.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.DataFilter.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.DataFilter.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.ExpressionEditor.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.ExpressionEditor.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FinancialChart.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FinancialChart.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FinancialChart.Toolbar.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FinancialChart.Toolbar.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FlexChart.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FlexChart.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FlexChart.Designer.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FlexChart.Designer.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FlexChart.Extended.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FlexChart.Extended.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FlexChart.Toolbar.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FlexChart.Toolbar.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FlexPivot.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FlexPivot.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FlexPivot.Slicer.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FlexPivot.Slicer.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FlexReport.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FlexReport.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FlexReport.CustomFields.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FlexReport.CustomFields.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FlexReportDesigner.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FlexReportDesigner.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.FlexViewer.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.FlexViewer.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.ImportServices.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.ImportServices.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.Input.MultiSelect.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.Input.MultiSelect.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.Map.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.Map.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.Pdf">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.PrintPreview.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.PrintPreview.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.Ribbon.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.Ribbon.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.RibbonPreview.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.RibbonPreview.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.RulesManager.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.RulesManager.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.Sparkline.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.Sparkline.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.TreeView.4.6.2">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Win.TreeView.4.6.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Zip">
+      <HintPath>..\..\C1WinForm\bin\v4.6.2\C1.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -134,6 +373,7 @@
     <Compile Include="View\SanPham\ThemSanPham.Designer.cs">
       <DependentUpon>ThemSanPham.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -190,6 +430,8 @@
     <None Include="cuahangDataSet.xss">
       <DependentUpon>cuahangDataSet.xsd</DependentUpon>
     </None>
+    <EmbeddedResource Include="CuaHangWindowForm.gclicx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

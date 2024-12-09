@@ -1,17 +1,18 @@
 ﻿using System.Windows.Forms;
+using C1.Win.C1FlexGrid;
 
 namespace WindowsFormsApp
 {
     partial class SanPhamForm
     {
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.DataGridView dataGridViewProducts;
+        private C1FlexGrid c1FlexGridProducts;
         private System.Windows.Forms.Button btnAction;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripActions;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEdit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
-        private System.Windows.Forms.Button btnBack; // Declare the back button
+        private System.Windows.Forms.Button btnBack;
 
         protected override void Dispose(bool disposing)
         {
@@ -25,55 +26,27 @@ namespace WindowsFormsApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.dataGridViewProducts = new System.Windows.Forms.DataGridView();
+            this.c1FlexGridProducts = new C1.Win.C1FlexGrid.C1FlexGrid();
             this.btnAction = new System.Windows.Forms.Button();
             this.contextMenuStripActions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.btnBack = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProducts)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.c1FlexGridProducts)).BeginInit();
             this.contextMenuStripActions.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridViewProducts
+            // c1FlexGridProducts
             // 
-            this.dataGridViewProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewProducts.Location = new System.Drawing.Point(12, 12);
-            this.dataGridViewProducts.Name = "dataGridViewProducts";
-            this.dataGridViewProducts.RowHeadersWidth = 51;
-            this.dataGridViewProducts.RowTemplate.Height = 24;
-            this.dataGridViewProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewProducts.Size = new System.Drawing.Size(686, 426);
-            this.dataGridViewProducts.TabIndex = 0;
-            this.dataGridViewProducts.AutoGenerateColumns = false;
-            this.dataGridViewProducts.ReadOnly = true;
-
-            // Add columns
-            var productIDColumn = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "ProductID",
-                HeaderText = "Mã sản phẩm",
-                Name = "ProductID"
-            };
-            dataGridViewProducts.Columns.Add(productIDColumn);
-
-            var productNameColumn = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "ProductName",
-                HeaderText = "Tên sản phẩm",
-                Name = "ProductName"
-            };
-            dataGridViewProducts.Columns.Add(productNameColumn);
-
-            var priceColumn = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Price",
-                HeaderText = "Giá",
-                Name = "Price"
-            };
-            dataGridViewProducts.Columns.Add(priceColumn);
-
+            this.c1FlexGridProducts.ColumnInfo = "10,1,0,0,0,95,Columns:";
+            this.c1FlexGridProducts.Location = new System.Drawing.Point(12, 12);
+            this.c1FlexGridProducts.Name = "c1FlexGridProducts";
+            this.c1FlexGridProducts.Rows.DefaultSize = 19;
+            this.c1FlexGridProducts.Size = new System.Drawing.Size(686, 426);
+            this.c1FlexGridProducts.TabIndex = 0;
+            this.c1FlexGridProducts.AllowEditing = false;
+            this.c1FlexGridProducts.SelectionMode = SelectionModeEnum.Row;
             // 
             // btnAction
             // 
@@ -135,11 +108,11 @@ namespace WindowsFormsApp
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnAction);
-            this.Controls.Add(this.dataGridViewProducts);
+            this.Controls.Add(this.c1FlexGridProducts);
             this.Name = "ProductForm";
             this.Text = "Danh sách sản phẩm";
             this.Load += new System.EventHandler(this.SanPhamForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProducts)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.c1FlexGridProducts)).EndInit();
             this.contextMenuStripActions.ResumeLayout(false);
             this.ResumeLayout(false);
         }

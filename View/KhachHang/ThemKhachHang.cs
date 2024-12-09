@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using C1.Win.C1Input;
 
 namespace CuaHangWindowForm.View.KhachHang
 {
@@ -15,27 +16,23 @@ namespace CuaHangWindowForm.View.KhachHang
             _connectionString = ConfigurationManager.ConnectionStrings["CuaHangWindowForm.Properties.Settings.ConnectionString"].ConnectionString;
         }
 
-        private void ThemKhachHang_Load(object sender, EventArgs e)
-        {
-
-        }
+        private void ThemKhachHang_Load(object sender, EventArgs e) { }
 
         private void txtCustomerID_TextChanged(object sender, EventArgs e)
         {
             txtCustomerID.Text = txtCustomerID.Text.ToUpper().Replace(" ", "");
-            txtCustomerID.SelectionStart = txtCustomerID.Text.Length; // Move cursor to the end
+            txtCustomerID.SelectionStart = txtCustomerID.Text.Length;
         }
 
         private void txtPhone_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Allow only digits and control characters
+            var textBox = sender as C1TextBox;
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
             }
 
-            // Limit the length to 10 digits
-            if (char.IsDigit(e.KeyChar) && txtPhone.Text.Length >= 10)
+            if (char.IsDigit(e.KeyChar) && textBox.Text.Length >= 10)
             {
                 e.Handled = true;
             }
@@ -82,7 +79,7 @@ namespace CuaHangWindowForm.View.KhachHang
                 MessageBox.Show("Khách hàng đã được thêm thành công");
                 ClearForm();
             }
-            catch (SqlException ex) when (ex.Number == 2627) // SQL error code for primary key violation
+            catch (SqlException ex) when (ex.Number == 2627)
             {
                 MessageBox.Show("Mã khách hàng đã tồn tại, xin vui lòng nhập mã mới");
             }
@@ -103,16 +100,5 @@ namespace CuaHangWindowForm.View.KhachHang
             txtCustomerName.Clear();
             txtPhone.Clear();
         }
-
-        private void lblCustomerName_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblCustomerID_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
-

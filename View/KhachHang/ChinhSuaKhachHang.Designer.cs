@@ -3,14 +3,14 @@
     partial class ChinhSuaKhachHang
     {
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label lblCustomerID;
-        private System.Windows.Forms.Label lblCustomerName;
-        private System.Windows.Forms.Label lblPhone;
-        private System.Windows.Forms.TextBox txtCustomerID;
-        private System.Windows.Forms.TextBox txtCustomerName;
-        private System.Windows.Forms.TextBox txtPhone;
-        private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnCancel;
+        private C1.Win.C1Input.C1Label lblCustomerID;
+        private C1.Win.C1Input.C1Label lblCustomerName;
+        private C1.Win.C1Input.C1Label lblPhone;
+        private C1.Win.C1Input.C1TextBox txtCustomerID;
+        private C1.Win.C1Input.C1TextBox txtCustomerName;
+        private C1.Win.C1Input.C1TextBox txtPhone;
+        private C1.Win.C1Input.C1Button btnSave;
+        private C1.Win.C1Input.C1Button btnCancel;
 
         protected override void Dispose(bool disposing)
         {
@@ -23,14 +23,14 @@
 
         private void InitializeComponent()
         {
-            this.lblCustomerID = new System.Windows.Forms.Label();
-            this.lblCustomerName = new System.Windows.Forms.Label();
-            this.lblPhone = new System.Windows.Forms.Label();
-            this.txtCustomerID = new System.Windows.Forms.TextBox();
-            this.txtCustomerName = new System.Windows.Forms.TextBox();
-            this.txtPhone = new System.Windows.Forms.TextBox();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.lblCustomerID = new C1.Win.C1Input.C1Label();
+            this.lblCustomerName = new C1.Win.C1Input.C1Label();
+            this.lblPhone = new C1.Win.C1Input.C1Label();
+            this.txtCustomerID = new C1.Win.C1Input.C1TextBox();
+            this.txtCustomerName = new C1.Win.C1Input.C1TextBox();
+            this.txtPhone = new C1.Win.C1Input.C1TextBox();
+            this.btnSave = new C1.Win.C1Input.C1Button();
+            this.btnCancel = new C1.Win.C1Input.C1Button();
             this.SuspendLayout();
             // 
             // lblCustomerID
@@ -40,6 +40,7 @@
             this.lblCustomerID.Name = "lblCustomerID";
             this.lblCustomerID.Size = new System.Drawing.Size(98, 16);
             this.lblCustomerID.TabIndex = 0;
+            this.lblCustomerID.TextDetached = true; // Ensure the Text property is detached
             this.lblCustomerID.Text = "Mã khách hàng";
             // 
             // lblCustomerName
@@ -49,6 +50,7 @@
             this.lblCustomerName.Name = "lblCustomerName";
             this.lblCustomerName.Size = new System.Drawing.Size(103, 16);
             this.lblCustomerName.TabIndex = 1;
+            this.lblCustomerName.TextDetached = true; // Ensure the Text property is detached
             this.lblCustomerName.Text = "Tên khách hàng";
             // 
             // lblPhone
@@ -58,6 +60,7 @@
             this.lblPhone.Name = "lblPhone";
             this.lblPhone.Size = new System.Drawing.Size(85, 16);
             this.lblPhone.TabIndex = 2;
+            this.lblPhone.TextDetached = true; // Ensure the Text property is detached
             this.lblPhone.Text = "Số điện thoại";
             // 
             // txtCustomerID
@@ -67,6 +70,7 @@
             this.txtCustomerID.Size = new System.Drawing.Size(247, 22);
             this.txtCustomerID.TabIndex = 3;
             this.txtCustomerID.ReadOnly = true;
+            this.txtCustomerID.TextDetached = true; // Ensure the Text property is detached
             // 
             // txtCustomerName
             // 
@@ -74,6 +78,7 @@
             this.txtCustomerName.Name = "txtCustomerName";
             this.txtCustomerName.Size = new System.Drawing.Size(247, 22);
             this.txtCustomerName.TabIndex = 4;
+            this.txtCustomerName.TextDetached = true; // Ensure the Text property is detached
             // 
             // txtPhone
             // 
@@ -81,6 +86,7 @@
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(247, 22);
             this.txtPhone.TabIndex = 5;
+            this.txtPhone.TextDetached = true; // Ensure the Text property is detached
             // 
             // btnSave
             // 
@@ -123,5 +129,3 @@
         }
     }
 }
-
-

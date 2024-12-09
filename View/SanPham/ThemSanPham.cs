@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using C1.Win.C1Input;
 
 namespace CuaHangWindowForm.View.SanPham
 {
@@ -20,7 +21,6 @@ namespace CuaHangWindowForm.View.SanPham
             txtProductID.Text = txtProductID.Text.ToUpper().Replace(" ", "");
             txtProductID.SelectionStart = txtProductID.Text.Length; // Move cursor to the end
         }
-
 
         private void ThemSanPham_Load(object sender, EventArgs e)
         {
@@ -85,4 +85,3 @@ namespace CuaHangWindowForm.View.SanPham
         }
     }
 }
-

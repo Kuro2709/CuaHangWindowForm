@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using CuaHangWindowForm.Models;
+using C1.Win.C1Input;
 
 namespace CuaHangWindowForm.View.SanPham
 {
@@ -17,18 +18,14 @@ namespace CuaHangWindowForm.View.SanPham
 
         private void ChinhSuaSanPham_Load(object sender, EventArgs e)
         {
-            LoadProductInfo();
-        }
-
-        private void LoadProductInfo()
-        {
+            txtProductID.Text = _productInfo.ProductID;
             txtProductName.Text = _productInfo.ProductName;
             numPrice.Value = _productInfo.Price;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtProductName.Text) || numPrice.Value <= 0)
+            if (string.IsNullOrEmpty(txtProductName.Text) || Convert.ToDecimal(numPrice.Value) <= 0)
             {
                 lblMessage.Text = "Tất cả các mục không được để trống";
                 return;
@@ -52,7 +49,7 @@ namespace CuaHangWindowForm.View.SanPham
                     {
                         command.Parameters.AddWithValue("@ProductID", _productInfo.ProductID);
                         command.Parameters.AddWithValue("@ProductName", txtProductName.Text);
-                        command.Parameters.AddWithValue("@Price", numPrice.Value);
+                        command.Parameters.AddWithValue("@Price", Convert.ToDecimal(numPrice.Value));
                         command.ExecuteNonQuery();
                     }
                 }
@@ -75,7 +72,6 @@ namespace CuaHangWindowForm.View.SanPham
             }
         }
 
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -87,3 +83,4 @@ namespace CuaHangWindowForm.View.SanPham
         }
     }
 }
+

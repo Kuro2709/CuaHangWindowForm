@@ -26,6 +26,9 @@ namespace CuaHangWindowForm.Models
         public virtual ThongTinKhachHang Customer { get; set; }
         public virtual ICollection<ThongTinChiTietHoaDon> InvoiceDetails { get; set; } = new List<ThongTinChiTietHoaDon>();
 
+        [NotMapped]
+        public string CustomerName => Customer?.CustomerName;
+
         public void RecalculateTotalPrice(Func<string, decimal> getProductPrice)
         {
             TotalPrice = 0;

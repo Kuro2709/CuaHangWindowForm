@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using CuaHangWindowForm.Models;
+using C1.Win.C1FlexGrid;
 
 namespace CuaHangWindowForm.View.HoaDon
 {
@@ -49,14 +50,28 @@ namespace CuaHangWindowForm.View.HoaDon
                     }
                 }
 
-                dataGridViewInvoices.DataSource = null;
                 dataGridViewInvoices.DataSource = _invoices;
+                dataGridViewInvoices.Cols.Count = 4; // Set the number of columns to 4
+
+                dataGridViewInvoices.Cols[1].Caption = "Mã hóa đơn";
+                dataGridViewInvoices.Cols[1].Name = "InvoiceID";
+                dataGridViewInvoices.Cols[1].DataType = typeof(string);
+
+                dataGridViewInvoices.Cols[2].Caption = "Khách hàng";
+                dataGridViewInvoices.Cols[2].Name = "CustomerName";
+                dataGridViewInvoices.Cols[2].DataType = typeof(string);
+
+                dataGridViewInvoices.Cols[3].Caption = "Tổng giá";
+                dataGridViewInvoices.Cols[3].Name = "TotalPrice";
+                dataGridViewInvoices.Cols[3].DataType = typeof(decimal);
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Exception: " + ex.Message);
             }
         }
+
 
         private void btnAddInvoice_Click(object sender, EventArgs e)
         {
@@ -68,9 +83,9 @@ namespace CuaHangWindowForm.View.HoaDon
 
         private void btnEditInvoice_Click(object sender, EventArgs e)
         {
-            if (dataGridViewInvoices.SelectedRows.Count > 0)
+            if (dataGridViewInvoices.RowSel > 0)
             {
-                var selectedInvoice = (ThongTinHoaDon)dataGridViewInvoices.SelectedRows[0].DataBoundItem;
+                var selectedInvoice = (ThongTinHoaDon)dataGridViewInvoices.Rows[dataGridViewInvoices.RowSel].DataSource;
                 var editInvoiceForm = new ChinhSuaHoaDon(selectedInvoice);
                 editInvoiceForm.ShowDialog();
                 LoadInvoices(); // Reload invoices after editing
@@ -83,9 +98,9 @@ namespace CuaHangWindowForm.View.HoaDon
 
         private void btnViewInvoiceDetails_Click(object sender, EventArgs e)
         {
-            if (dataGridViewInvoices.SelectedRows.Count > 0)
+            if (dataGridViewInvoices.RowSel > 0)
             {
-                var selectedInvoice = (ThongTinHoaDon)dataGridViewInvoices.SelectedRows[0].DataBoundItem;
+                var selectedInvoice = (ThongTinHoaDon)dataGridViewInvoices.Rows[dataGridViewInvoices.RowSel].DataSource;
                 var viewInvoiceDetailsForm = new ChiTietHoaDon(selectedInvoice);
                 viewInvoiceDetailsForm.ShowDialog();
             }
@@ -97,9 +112,9 @@ namespace CuaHangWindowForm.View.HoaDon
 
         private void btnDeleteInvoice_Click(object sender, EventArgs e)
         {
-            if (dataGridViewInvoices.SelectedRows.Count > 0)
+            if (dataGridViewInvoices.RowSel > 0)
             {
-                var selectedInvoice = (ThongTinHoaDon)dataGridViewInvoices.SelectedRows[0].DataBoundItem;
+                var selectedInvoice = (ThongTinHoaDon)dataGridViewInvoices.Rows[dataGridViewInvoices.RowSel].DataSource;
 
                 var result = MessageBox.Show("Bạn có muốn xóa không?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
@@ -165,21 +180,8 @@ namespace CuaHangWindowForm.View.HoaDon
 
         private void HoaDonForm_Load(object sender, EventArgs e)
         {
-            dataGridViewInvoices.CellFormatting += DataGridViewInvoices_CellFormatting;
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(HoaDonForm_KeyDown);
-        }
-
-        private void DataGridViewInvoices_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (dataGridViewInvoices.Columns[e.ColumnIndex].Name == "Customer" && e.RowIndex >= 0)
-            {
-                var invoice = dataGridViewInvoices.Rows[e.RowIndex].DataBoundItem as ThongTinHoaDon;
-                if (invoice != null)
-                {
-                    e.Value = invoice.Customer.CustomerName;
-                }
-            }
         }
 
         private void HoaDonForm_KeyDown(object sender, KeyEventArgs e)
@@ -203,3 +205,5 @@ namespace CuaHangWindowForm.View.HoaDon
         }
     }
 }
+
+

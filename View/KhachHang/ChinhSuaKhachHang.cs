@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using CuaHangWindowForm.Models;
+using C1.Win.C1Input;
 
 namespace CuaHangWindowForm.View.KhachHang
 {
@@ -66,4 +67,3 @@ namespace CuaHangWindowForm.View.KhachHang
         }
     }
 }
-
