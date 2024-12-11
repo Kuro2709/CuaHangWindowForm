@@ -66,6 +66,8 @@ namespace CuaHangWindowForm.View.HoaDon
             this.btnAction.Text = "Thực hiện";
             this.btnAction.UseVisualStyleBackColor = true;
             this.btnAction.UseVisualStyleForeColor = true;
+            this.btnAction.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.btnAction.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             this.btnAction.Click += new System.EventHandler(this.btnAction_Click);
             // 
             // contextMenuStripActions
@@ -120,6 +122,8 @@ namespace CuaHangWindowForm.View.HoaDon
             this.btnBack.Text = "Quay lại";
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.UseVisualStyleForeColor = true;
+            this.btnBack.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.btnBack.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // HoaDonForm

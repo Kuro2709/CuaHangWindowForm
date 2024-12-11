@@ -55,7 +55,7 @@ namespace WindowsFormsApp
             }
         }
 
-        private void btnAddCustomer_Click(object sender, C1.Win.C1Command.ClickEventArgs e)
+        private void btnAddCustomer_Click(object sender, EventArgs e)
         {
             // Navigate to the Add Customer form
             var addCustomerForm = new ThemKhachHang();
@@ -63,7 +63,7 @@ namespace WindowsFormsApp
             LoadCustomers(); // Reload customers after adding
         }
 
-        private void btnEditCustomer_Click(object sender, C1.Win.C1Command.ClickEventArgs e)
+        private void btnEditCustomer_Click(object sender, EventArgs e)
         {
             if (dataGridViewCustomers.RowSel > 0)
             {
@@ -78,7 +78,7 @@ namespace WindowsFormsApp
             }
         }
 
-        private void btnDeleteCustomer_Click(object sender, C1.Win.C1Command.ClickEventArgs e)
+        private void btnDeleteCustomer_Click(object sender, EventArgs e)
         {
             if (dataGridViewCustomers.RowSel > 0)
             {
@@ -125,7 +125,7 @@ namespace WindowsFormsApp
 
         private void btnAction_Click(object sender, EventArgs e)
         {
-            contextMenuStripActions.ShowContextMenu(btnAction, new System.Drawing.Point(0, btnAction.Height));
+            contextMenuStripActions.Show(btnAction, new System.Drawing.Point(0, btnAction.Height));
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -147,17 +147,16 @@ namespace WindowsFormsApp
         {
             if (e.Control && e.KeyCode == Keys.N)
             {
-                btnAddCustomer_Click(sender, null);
+                btnAddCustomer_Click(sender, e);
             }
             else if (e.Control && e.KeyCode == Keys.E)
             {
-                btnEditCustomer_Click(sender, null);
+                btnEditCustomer_Click(sender, e);
             }
             else if (e.Control && e.KeyCode == Keys.D)
             {
-                btnDeleteCustomer_Click(sender, null);
+                btnDeleteCustomer_Click(sender, e);
             }
         }
     }
 }
-

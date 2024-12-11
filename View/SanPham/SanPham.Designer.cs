@@ -7,12 +7,12 @@ namespace WindowsFormsApp
     {
         private System.ComponentModel.IContainer components = null;
         private C1FlexGrid c1FlexGridProducts;
-        private System.Windows.Forms.Button btnAction;
+        private C1.Win.C1Input.C1Button btnAction;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripActions;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEdit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
-        private System.Windows.Forms.Button btnBack;
+        private C1.Win.C1Input.C1Button btnBack;
 
         protected override void Dispose(bool disposing)
         {
@@ -28,14 +28,16 @@ namespace WindowsFormsApp
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SanPhamForm));
             this.c1FlexGridProducts = new C1.Win.C1FlexGrid.C1FlexGrid();
-            this.btnAction = new System.Windows.Forms.Button();
+            this.btnAction = new C1.Win.C1Input.C1Button();
             this.contextMenuStripActions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnBack = new System.Windows.Forms.Button();
+            this.btnBack = new C1.Win.C1Input.C1Button();
             ((System.ComponentModel.ISupportInitialize)(this.c1FlexGridProducts)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnAction)).BeginInit();
             this.contextMenuStripActions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnBack)).BeginInit();
             this.SuspendLayout();
             // 
             // c1FlexGridProducts
@@ -59,6 +61,9 @@ namespace WindowsFormsApp
             this.btnAction.TabIndex = 1;
             this.btnAction.Text = "Thực hiện";
             this.btnAction.UseVisualStyleBackColor = true;
+            this.btnAction.UseVisualStyleForeColor = true;
+            this.btnAction.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.btnAction.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             this.btnAction.Click += new System.EventHandler(this.btnAction_Click);
             // 
             // contextMenuStripActions
@@ -103,6 +108,9 @@ namespace WindowsFormsApp
             this.btnBack.TabIndex = 2;
             this.btnBack.Text = "Quay lại";
             this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.UseVisualStyleForeColor = true;
+            this.btnBack.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.btnBack.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // SanPhamForm
@@ -117,7 +125,9 @@ namespace WindowsFormsApp
             this.Text = "Danh sách sản phẩm";
             this.Load += new System.EventHandler(this.SanPhamForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.c1FlexGridProducts)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnAction)).EndInit();
             this.contextMenuStripActions.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnBack)).EndInit();
             this.ResumeLayout(false);
 
         }
