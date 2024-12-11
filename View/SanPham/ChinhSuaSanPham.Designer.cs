@@ -33,70 +33,105 @@
             this.btnSave = new C1.Win.C1Input.C1Button();
             this.btnCancel = new C1.Win.C1Input.C1Button();
             this.lblMessage = new C1.Win.C1Input.C1Label();
+            ((System.ComponentModel.ISupportInitialize)(this.lblProductID)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtProductID)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblProductName)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtProductName)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPrice)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSave)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCancel)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMessage)).BeginInit();
             this.SuspendLayout();
             // 
             // lblProductID
             // 
             this.lblProductID.AutoSize = true;
+            this.lblProductID.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lblProductID.Location = new System.Drawing.Point(50, 20);
             this.lblProductID.Name = "lblProductID";
-            this.lblProductID.Size = new System.Drawing.Size(93, 16);
+            this.lblProductID.Size = new System.Drawing.Size(88, 16);
             this.lblProductID.TabIndex = 0;
-            this.lblProductID.TextDetached = true; // Ensure the Text property is detached
+            this.lblProductID.Tag = null;
             this.lblProductID.Text = "Mã sản phẩm";
+            this.lblProductID.TextDetached = true;
             // 
             // txtProductID
             // 
+            this.txtProductID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtProductID.Location = new System.Drawing.Point(200, 20);
             this.txtProductID.Name = "txtProductID";
-            this.txtProductID.Size = new System.Drawing.Size(200, 22);
-            this.txtProductID.TabIndex = 1;
             this.txtProductID.ReadOnly = true;
-            this.txtProductID.TextDetached = true; // Ensure the Text property is detached
+            this.txtProductID.Size = new System.Drawing.Size(200, 20);
+            this.txtProductID.TabIndex = 1;
+            this.txtProductID.Tag = null;
+            this.txtProductID.TextDetached = true;
+            this.txtProductID.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.txtProductID.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             // 
             // lblProductName
             // 
             this.lblProductName.AutoSize = true;
+            this.lblProductName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lblProductName.Location = new System.Drawing.Point(50, 60);
             this.lblProductName.Name = "lblProductName";
             this.lblProductName.Size = new System.Drawing.Size(93, 16);
             this.lblProductName.TabIndex = 2;
-            this.lblProductName.TextDetached = true; // Ensure the Text property is detached
+            this.lblProductName.Tag = null;
             this.lblProductName.Text = "Tên sản phẩm";
+            this.lblProductName.TextDetached = true;
             // 
             // txtProductName
             // 
+            this.txtProductName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtProductName.Location = new System.Drawing.Point(200, 60);
             this.txtProductName.Name = "txtProductName";
-            this.txtProductName.Size = new System.Drawing.Size(200, 22);
+            this.txtProductName.Size = new System.Drawing.Size(200, 20);
             this.txtProductName.TabIndex = 3;
-            this.txtProductName.TextDetached = true; // Ensure the Text property is detached
+            this.txtProductName.Tag = null;
+            this.txtProductName.TextDetached = true;
+            this.txtProductName.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.txtProductName.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             // 
             // lblPrice
             // 
             this.lblPrice.AutoSize = true;
+            this.lblPrice.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lblPrice.Location = new System.Drawing.Point(50, 100);
             this.lblPrice.Name = "lblPrice";
             this.lblPrice.Size = new System.Drawing.Size(63, 16);
             this.lblPrice.TabIndex = 4;
-            this.lblPrice.TextDetached = true; // Ensure the Text property is detached
+            this.lblPrice.Tag = null;
             this.lblPrice.Text = "Giá thành";
+            this.lblPrice.TextDetached = true;
             // 
             // numPrice
             // 
+            this.numPrice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            // 
+            // 
+            // 
+            this.numPrice.Calculator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(239)))), ((int)(((byte)(255)))));
+            this.numPrice.Calculator.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.numPrice.Calculator.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.numPrice.ImagePadding = new System.Windows.Forms.Padding(0, 0, 0, 0);
             this.numPrice.Location = new System.Drawing.Point(200, 100);
             this.numPrice.Name = "numPrice";
-            this.numPrice.Size = new System.Drawing.Size(200, 22);
-            this.numPrice.TabIndex = 5;
-            this.numPrice.PostValidation.Validation = C1.Win.C1Input.PostValidationTypeEnum.ValuesAndIntervals;
             this.numPrice.PostValidation.Intervals.AddRange(new C1.Win.C1Input.ValueInterval[] {
-                new C1.Win.C1Input.ValueInterval(
-                    new decimal(new int[] {1, 0, 0, 0}), // Minimum value
-                    new decimal(new int[] {1000000, 0, 0, 0}), // Maximum value
-                    true, // Include minimum
-                    true) // Include maximum
-            });
+            new C1.Win.C1Input.ValueInterval(new decimal(new int[] {
+                            1,
+                            0,
+                            0,
+                            0}), new decimal(new int[] {
+                            1000000,
+                            0,
+                            0,
+                            0}), true, true)});
+            this.numPrice.Size = new System.Drawing.Size(200, 20);
+            this.numPrice.TabIndex = 5;
+            this.numPrice.Tag = null;
+            this.numPrice.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.numPrice.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             this.numPrice.ValueChanged += new System.EventHandler(this.numPrice_ValueChanged);
             // 
             // btnSave
@@ -107,6 +142,9 @@
             this.btnSave.TabIndex = 6;
             this.btnSave.Text = "Lưu";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleForeColor = true;
+            this.btnSave.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.btnSave.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
@@ -117,16 +155,21 @@
             this.btnCancel.TabIndex = 7;
             this.btnCancel.Text = "Hủy";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.UseVisualStyleForeColor = true;
+            this.btnCancel.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.btnCancel.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // lblMessage
             // 
             this.lblMessage.AutoSize = true;
+            this.lblMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lblMessage.ForeColor = System.Drawing.Color.Red;
             this.lblMessage.Location = new System.Drawing.Point(50, 200);
             this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(0, 16);
             this.lblMessage.TabIndex = 8;
+            this.lblMessage.Tag = null;
             // 
             // ChinhSuaSanPham
             // 
@@ -145,9 +188,18 @@
             this.Name = "ChinhSuaSanPham";
             this.Text = "Chỉnh sửa sản phẩm";
             this.Load += new System.EventHandler(this.ChinhSuaSanPham_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.lblProductID)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtProductID)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblProductName)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtProductName)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPrice)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSave)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCancel)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMessage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
     }
 }

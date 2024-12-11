@@ -17,14 +17,13 @@ namespace WindowsFormsApp
             var productsForm = new SanPhamForm();
             productsForm.Show();
         }
-        
+
         private void btnManageCustomers_Click(object sender, EventArgs e)
         {
             // Navigate to the Customers management form
             var customersForm = new KhachHangForm();
             customersForm.Show();
         }
-        
 
         private void btnManageInvoices_Click(object sender, EventArgs e)
         {
@@ -32,15 +31,11 @@ namespace WindowsFormsApp
             var invoicesForm = new HoaDonForm();
             invoicesForm.Show();
         }
-        
+
         private void TrangChu_Load(object sender, EventArgs e)
         {
             // Add any initialization code here
         }
-
-        private void TrangChu_Load_1(object sender, EventArgs e)
-        {
-
-        }
     }
 }
+

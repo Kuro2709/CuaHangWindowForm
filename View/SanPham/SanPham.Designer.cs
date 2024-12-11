@@ -26,6 +26,7 @@ namespace WindowsFormsApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SanPhamForm));
             this.c1FlexGridProducts = new C1.Win.C1FlexGrid.C1FlexGrid();
             this.btnAction = new System.Windows.Forms.Button();
             this.contextMenuStripActions = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -39,14 +40,16 @@ namespace WindowsFormsApp
             // 
             // c1FlexGridProducts
             // 
+            this.c1FlexGridProducts.AllowEditing = false;
             this.c1FlexGridProducts.ColumnInfo = "10,1,0,0,0,95,Columns:";
             this.c1FlexGridProducts.Location = new System.Drawing.Point(12, 12);
             this.c1FlexGridProducts.Name = "c1FlexGridProducts";
             this.c1FlexGridProducts.Rows.DefaultSize = 19;
+            this.c1FlexGridProducts.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row;
             this.c1FlexGridProducts.Size = new System.Drawing.Size(686, 426);
+            this.c1FlexGridProducts.StyleInfo = resources.GetString("c1FlexGridProducts.StyleInfo");
             this.c1FlexGridProducts.TabIndex = 0;
-            this.c1FlexGridProducts.AllowEditing = false;
-            this.c1FlexGridProducts.SelectionMode = SelectionModeEnum.Row;
+            this.c1FlexGridProducts.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Office2010Blue;
             // 
             // btnAction
             // 
@@ -60,18 +63,19 @@ namespace WindowsFormsApp
             // 
             // contextMenuStripActions
             // 
+            this.contextMenuStripActions.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemAdd,
             this.toolStripMenuItemEdit,
             this.toolStripMenuItemDelete});
             this.contextMenuStripActions.Name = "contextMenuStripActions";
-            this.contextMenuStripActions.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStripActions.Size = new System.Drawing.Size(169, 76);
             // 
             // toolStripMenuItemAdd
             // 
             this.toolStripMenuItemAdd.Name = "toolStripMenuItemAdd";
             this.toolStripMenuItemAdd.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(168, 24);
             this.toolStripMenuItemAdd.Text = "Thêm";
             this.toolStripMenuItemAdd.Click += new System.EventHandler(this.btnAddProduct_Click);
             // 
@@ -79,7 +83,7 @@ namespace WindowsFormsApp
             // 
             this.toolStripMenuItemEdit.Name = "toolStripMenuItemEdit";
             this.toolStripMenuItemEdit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(168, 24);
             this.toolStripMenuItemEdit.Text = "Sửa";
             this.toolStripMenuItemEdit.Click += new System.EventHandler(this.btnEditProduct_Click);
             // 
@@ -87,7 +91,7 @@ namespace WindowsFormsApp
             // 
             this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
             this.toolStripMenuItemDelete.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(168, 24);
             this.toolStripMenuItemDelete.Text = "Xóa";
             this.toolStripMenuItemDelete.Click += new System.EventHandler(this.btnDeleteProduct_Click);
             // 
@@ -101,7 +105,7 @@ namespace WindowsFormsApp
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
-            // ProductForm
+            // SanPhamForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -109,12 +113,13 @@ namespace WindowsFormsApp
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnAction);
             this.Controls.Add(this.c1FlexGridProducts);
-            this.Name = "ProductForm";
+            this.Name = "SanPhamForm";
             this.Text = "Danh sách sản phẩm";
             this.Load += new System.EventHandler(this.SanPhamForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.c1FlexGridProducts)).EndInit();
             this.contextMenuStripActions.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
     }
 }

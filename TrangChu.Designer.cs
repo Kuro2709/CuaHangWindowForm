@@ -3,23 +3,23 @@
     partial class TrangChu
     {
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Button btnManageProducts;
-        private System.Windows.Forms.Button btnManageCustomers;
-        private System.Windows.Forms.Button btnManageInvoices;
-        private System.Windows.Forms.Label lblWelcome;
-        private System.Windows.Forms.Label lblProducts;
-        private System.Windows.Forms.Label lblCustomers;
-        private System.Windows.Forms.Label lblInvoices;
+        private C1.Win.C1Input.C1Button btnManageProducts;
+        private C1.Win.C1Input.C1Button btnManageCustomers;
+        private C1.Win.C1Input.C1Button btnManageInvoices;
+        private C1.Win.C1Input.C1Label lblWelcome;
+        private C1.Win.C1Input.C1Label lblProducts;
+        private C1.Win.C1Input.C1Label lblCustomers;
+        private C1.Win.C1Input.C1Label lblInvoices;
 
         private void InitializeComponent()
         {
-            this.btnManageProducts = new System.Windows.Forms.Button();
-            this.btnManageCustomers = new System.Windows.Forms.Button();
-            this.btnManageInvoices = new System.Windows.Forms.Button();
-            this.lblWelcome = new System.Windows.Forms.Label();
-            this.lblProducts = new System.Windows.Forms.Label();
-            this.lblCustomers = new System.Windows.Forms.Label();
-            this.lblInvoices = new System.Windows.Forms.Label();
+            this.btnManageProducts = new C1.Win.C1Input.C1Button();
+            this.btnManageCustomers = new C1.Win.C1Input.C1Button();
+            this.btnManageInvoices = new C1.Win.C1Input.C1Button();
+            this.lblWelcome = new C1.Win.C1Input.C1Label();
+            this.lblProducts = new C1.Win.C1Input.C1Label();
+            this.lblCustomers = new C1.Win.C1Input.C1Label();
+            this.lblInvoices = new C1.Win.C1Input.C1Label();
             this.SuspendLayout();
             // 
             // btnManageProducts
@@ -32,7 +32,6 @@
             this.btnManageProducts.UseVisualStyleBackColor = true;
             this.btnManageProducts.Click += new System.EventHandler(this.btnManageProducts_Click);
             // 
-            
             // btnManageCustomers
             // 
             this.btnManageCustomers.Location = new System.Drawing.Point(300, 150);
@@ -43,7 +42,6 @@
             this.btnManageCustomers.UseVisualStyleBackColor = true;
             this.btnManageCustomers.Click += new System.EventHandler(this.btnManageCustomers_Click);
             // 
-            
             // btnManageInvoices
             // 
             this.btnManageInvoices.Location = new System.Drawing.Point(550, 150);
@@ -54,7 +52,6 @@
             this.btnManageInvoices.UseVisualStyleBackColor = true;
             this.btnManageInvoices.Click += new System.EventHandler(this.btnManageInvoices_Click);
             // 
-            
             // lblWelcome
             // 
             this.lblWelcome.AutoSize = true;
@@ -63,6 +60,7 @@
             this.lblWelcome.Name = "lblWelcome";
             this.lblWelcome.Size = new System.Drawing.Size(447, 31);
             this.lblWelcome.TabIndex = 3;
+            this.lblWelcome.TextDetached = true;
             this.lblWelcome.Text = "Chào mừng bạn đến với cửa hàng";
             // 
             // lblProducts
@@ -72,6 +70,7 @@
             this.lblProducts.Name = "lblProducts";
             this.lblProducts.Size = new System.Drawing.Size(68, 16);
             this.lblProducts.TabIndex = 4;
+            this.lblProducts.TextDetached = true;
             this.lblProducts.Text = "Sản phẩm";
             // 
             // lblCustomers
@@ -81,6 +80,7 @@
             this.lblCustomers.Name = "lblCustomers";
             this.lblCustomers.Size = new System.Drawing.Size(77, 16);
             this.lblCustomers.TabIndex = 5;
+            this.lblCustomers.TextDetached = true;
             this.lblCustomers.Text = "Khách hàng";
             // 
             // lblInvoices
@@ -90,6 +90,7 @@
             this.lblInvoices.Name = "lblInvoices";
             this.lblInvoices.Size = new System.Drawing.Size(59, 16);
             this.lblInvoices.TabIndex = 6;
+            this.lblInvoices.TextDetached = true;
             this.lblInvoices.Text = "Hóa đơn";
             // 
             // TrangChu
@@ -107,7 +108,7 @@
             this.Load += new System.EventHandler(this.TrangChu_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
     }
 }
+

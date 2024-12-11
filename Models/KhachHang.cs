@@ -16,6 +16,11 @@ namespace CuaHangWindowForm.Models
         [Required]
         [StringLength(15)]
         public string Phone { get; set; }
+
+        public override string ToString()
+        {
+            return CustomerName;
+        }
     }
 }
 

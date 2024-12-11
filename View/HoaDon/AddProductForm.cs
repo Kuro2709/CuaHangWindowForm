@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using CuaHangWindowForm.Models;
+using System.Linq; // Add this using directive
 
 namespace CuaHangWindowForm.View.HoaDon
 {
@@ -19,15 +19,18 @@ namespace CuaHangWindowForm.View.HoaDon
 
         private void AddProductForm_Load(object sender, EventArgs e)
         {
-            cmbProduct.DataSource = _products;
-            cmbProduct.DisplayMember = "ProductName";
-            cmbProduct.ValueMember = "ProductID";
+            cmbProduct.Items.Clear();
+            foreach (var product in _products)
+            {
+                cmbProduct.Items.Add(product);
+            }
+            cmbProduct.SelectedItem = _products.FirstOrDefault();
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
             SelectedProduct = (ThongTinSanPham)cmbProduct.SelectedItem;
-            Quantity = (int)nudQuantity.Value;
+            Quantity = Convert.ToInt32(nudQuantity.Value);
             DialogResult = DialogResult.OK;
             Close();
         }

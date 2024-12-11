@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using C1.Win.C1FlexGrid;
 using C1.Win.C1Input;
+using C1.Win.C1Command;
 
 namespace WindowsFormsApp
 {
@@ -9,11 +10,16 @@ namespace WindowsFormsApp
         private System.ComponentModel.IContainer components = null;
         private C1FlexGrid dataGridViewCustomers;
         private C1Button btnAction;
-        private ContextMenuStrip contextMenuStripActions;
-        private ToolStripMenuItem toolStripMenuItemAdd;
-        private ToolStripMenuItem toolStripMenuItemEdit;
-        private ToolStripMenuItem toolStripMenuItemDelete;
+        private C1ContextMenu contextMenuStripActions;
+        private C1CommandLink commandLinkAdd;
+        private C1CommandLink commandLinkEdit;
+        private C1CommandLink commandLinkDelete;
+        private C1CommandMenu commandMenuActions;
+        private C1Command commandAdd;
+        private C1Command commandEdit;
+        private C1Command commandDelete;
         private C1Button btnBack;
+        private C1CommandHolder c1CommandHolder1;
 
         protected override void Dispose(bool disposing)
         {
@@ -27,37 +33,37 @@ namespace WindowsFormsApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KhachHangForm));
             this.dataGridViewCustomers = new C1.Win.C1FlexGrid.C1FlexGrid();
             this.btnAction = new C1.Win.C1Input.C1Button();
-            this.contextMenuStripActions = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripActions = new C1.Win.C1Command.C1ContextMenu();
+            this.commandLinkAdd = new C1.Win.C1Command.C1CommandLink();
+            this.commandAdd = new C1.Win.C1Command.C1Command();
+            this.commandLinkEdit = new C1.Win.C1Command.C1CommandLink();
+            this.commandEdit = new C1.Win.C1Command.C1Command();
+            this.commandLinkDelete = new C1.Win.C1Command.C1CommandLink();
+            this.commandDelete = new C1.Win.C1Command.C1Command();
+            this.commandMenuActions = new C1.Win.C1Command.C1CommandMenu();
             this.btnBack = new C1.Win.C1Input.C1Button();
+            this.c1CommandHolder1 = new C1.Win.C1Command.C1CommandHolder();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCustomers)).BeginInit();
-            this.contextMenuStripActions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnAction)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnBack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.c1CommandHolder1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridViewCustomers
             // 
+            this.dataGridViewCustomers.AllowEditing = false;
             this.dataGridViewCustomers.ColumnInfo = "10,1,0,0,0,95,Columns:";
             this.dataGridViewCustomers.Location = new System.Drawing.Point(12, 12);
             this.dataGridViewCustomers.Name = "dataGridViewCustomers";
             this.dataGridViewCustomers.Rows.DefaultSize = 19;
             this.dataGridViewCustomers.SelectionMode = C1.Win.C1FlexGrid.SelectionModeEnum.Row;
             this.dataGridViewCustomers.Size = new System.Drawing.Size(686, 426);
+            this.dataGridViewCustomers.StyleInfo = resources.GetString("dataGridViewCustomers.StyleInfo");
             this.dataGridViewCustomers.TabIndex = 0;
-            this.dataGridViewCustomers.AllowEditing = false; // Make the grid read-only
-
-            // Add columns
-            this.dataGridViewCustomers.Cols.Count = 4;
-            this.dataGridViewCustomers.Cols[1].Caption = "Mã khách hàng";
-            this.dataGridViewCustomers.Cols[1].Name = "MaKhachHang";
-            this.dataGridViewCustomers.Cols[2].Caption = "Tên khách hàng";
-            this.dataGridViewCustomers.Cols[2].Name = "TenKhachHang";
-            this.dataGridViewCustomers.Cols[3].Caption = "Số điện thoại";
-            this.dataGridViewCustomers.Cols[3].Name = "SoDienThoai";
-
+            this.dataGridViewCustomers.VisualStyle = C1.Win.C1FlexGrid.VisualStyle.Office2010Blue;
             // 
             // btnAction
             // 
@@ -67,40 +73,68 @@ namespace WindowsFormsApp
             this.btnAction.TabIndex = 1;
             this.btnAction.Text = "Thực hiện";
             this.btnAction.UseVisualStyleBackColor = true;
+            this.btnAction.UseVisualStyleForeColor = true;
             this.btnAction.Click += new System.EventHandler(this.btnAction_Click);
             // 
             // contextMenuStripActions
             // 
-            this.contextMenuStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemAdd,
-            this.toolStripMenuItemEdit,
-            this.toolStripMenuItemDelete});
+            this.contextMenuStripActions.CommandLinks.AddRange(new C1.Win.C1Command.C1CommandLink[] {
+                this.commandLinkAdd,
+                this.commandLinkEdit,
+                this.commandLinkDelete});
             this.contextMenuStripActions.Name = "contextMenuStripActions";
-            this.contextMenuStripActions.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStripActions.ShortcutText = "";
+            this.contextMenuStripActions.Virgin = false;
             // 
-            // toolStripMenuItemAdd
+            // commandLinkAdd
             // 
-            this.toolStripMenuItemAdd.Name = "toolStripMenuItemAdd";
-            this.toolStripMenuItemAdd.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItemAdd.Text = "Thêm";
-            this.toolStripMenuItemAdd.Click += new System.EventHandler(this.btnAddCustomer_Click);
+            this.commandLinkAdd.Command = this.commandAdd;
             // 
-            // toolStripMenuItemEdit
+            // commandAdd
             // 
-            this.toolStripMenuItemEdit.Name = "toolStripMenuItemEdit";
-            this.toolStripMenuItemEdit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItemEdit.Text = "Sửa";
-            this.toolStripMenuItemEdit.Click += new System.EventHandler(this.btnEditCustomer_Click);
+            this.commandAdd.Name = "commandAdd";
+            this.commandAdd.Shortcut = System.Windows.Forms.Shortcut.CtrlN;
+            this.commandAdd.ShortcutText = "Ctrl+N";
+            this.commandAdd.Text = "Thêm";
+            this.commandAdd.Virgin = false;
+            this.commandAdd.Click += new C1.Win.C1Command.ClickEventHandler(this.btnAddCustomer_Click);
             // 
-            // toolStripMenuItemDelete
+            // commandLinkEdit
             // 
-            this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
-            this.toolStripMenuItemDelete.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItemDelete.Text = "Xóa";
-            this.toolStripMenuItemDelete.Click += new System.EventHandler(this.btnDeleteCustomer_Click);
+            this.commandLinkEdit.Command = this.commandEdit;
+            // 
+            // commandEdit
+            // 
+            this.commandEdit.Name = "commandEdit";
+            this.commandEdit.Shortcut = System.Windows.Forms.Shortcut.CtrlE;
+            this.commandEdit.ShortcutText = "Ctrl+E";
+            this.commandEdit.Text = "Sửa";
+            this.commandEdit.Virgin = false;
+            this.commandEdit.Click += new C1.Win.C1Command.ClickEventHandler(this.btnEditCustomer_Click);
+            // 
+            // commandLinkDelete
+            // 
+            this.commandLinkDelete.Command = this.commandDelete;
+            // 
+            // commandDelete
+            // 
+            this.commandDelete.Name = "commandDelete";
+            this.commandDelete.Shortcut = System.Windows.Forms.Shortcut.CtrlD;
+            this.commandDelete.ShortcutText = "Ctrl+D";
+            this.commandDelete.Text = "Xóa";
+            this.commandDelete.Virgin = false;
+            this.commandDelete.Click += new C1.Win.C1Command.ClickEventHandler(this.btnDeleteCustomer_Click);
+            // 
+            // commandMenuActions
+            // 
+            this.commandMenuActions.CommandLinks.AddRange(new C1.Win.C1Command.C1CommandLink[] {
+                this.commandLinkAdd,
+                this.commandLinkEdit,
+                this.commandLinkDelete});
+            this.commandMenuActions.Name = "commandMenuActions";
+            this.commandMenuActions.ShortcutText = "";
+            this.commandMenuActions.Text = "Actions";
+            this.commandMenuActions.Virgin = false;
             // 
             // btnBack
             // 
@@ -110,7 +144,17 @@ namespace WindowsFormsApp
             this.btnBack.TabIndex = 2;
             this.btnBack.Text = "Quay lại";
             this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.UseVisualStyleForeColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // c1CommandHolder1
+            // 
+            this.c1CommandHolder1.Commands.Add(this.contextMenuStripActions);
+            this.c1CommandHolder1.Commands.Add(this.commandAdd);
+            this.c1CommandHolder1.Commands.Add(this.commandEdit);
+            this.c1CommandHolder1.Commands.Add(this.commandDelete);
+            this.c1CommandHolder1.Commands.Add(this.commandMenuActions);
+            this.c1CommandHolder1.Owner = this;
             // 
             // KhachHangForm
             // 
@@ -124,7 +168,9 @@ namespace WindowsFormsApp
             this.Text = "KhachHangForm";
             this.Load += new System.EventHandler(this.KhachHangForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCustomers)).EndInit();
-            this.contextMenuStripActions.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnAction)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnBack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.c1CommandHolder1)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -5,13 +5,14 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
 using CuaHangWindowForm.Models;
+using C1.Win.C1FlexGrid;
 
 namespace CuaHangWindowForm.View.HoaDon
 {
     public partial class ChinhSuaHoaDon : Form
     {
-        private string _connectionString;
-        private ThongTinHoaDon _invoice;
+        private readonly string _connectionString;
+        private readonly ThongTinHoaDon _invoice;
         private List<ThongTinKhachHang> _customers;
         private List<ThongTinSanPham> _products;
 
@@ -53,10 +54,13 @@ namespace CuaHangWindowForm.View.HoaDon
                     }
                 }
 
-                cmbCustomerID.DataSource = _customers;
-                cmbCustomerID.DisplayMember = "CustomerName";
-                cmbCustomerID.ValueMember = "CustomerID";
-                cmbCustomerID.SelectedValue = _invoice.CustomerID;
+                cmbCustomerID.Items.Clear();
+                foreach (var customer in _customers)
+                {
+                    cmbCustomerID.Items.Add(customer);
+                }
+
+                cmbCustomerID.SelectedItem = _customers.FirstOrDefault(c => c.CustomerID == _invoice.CustomerID);
             }
             catch (Exception ex)
             {
@@ -98,6 +102,7 @@ namespace CuaHangWindowForm.View.HoaDon
         private void LoadInvoiceDetails()
         {
             txtInvoiceID.Text = _invoice.InvoiceID;
+            txtInvoiceID.ReadOnly = true; // Ensure the InvoiceID is read-only
             dtpInvoiceDate.Value = _invoice.InvoiceDate;
             txtTotalPrice.Text = _invoice.TotalPrice.ToString("0.00");
 
@@ -108,7 +113,7 @@ namespace CuaHangWindowForm.View.HoaDon
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT d.InvoiceDetailID, d.ProductID, p.ProductName, d.Quantity, d.TotalPrice FROM InvoiceDetails d JOIN Product p ON d.ProductID = p.ProductID WHERE d.InvoiceID = @InvoiceID";
+                    string query = "SELECT d.InvoiceDetailID, d.ProductID, p.ProductName, d.Quantity, d.TotalPrice, p.Price AS UnitPrice FROM InvoiceDetails d JOIN Product p ON d.ProductID = p.ProductID WHERE d.InvoiceID = @InvoiceID";
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@InvoiceID", _invoice.InvoiceID);
                     SqlDataReader reader = command.ExecuteReader();
@@ -119,7 +124,7 @@ namespace CuaHangWindowForm.View.HoaDon
                         {
                             InvoiceDetailID = Convert.ToInt32(reader["InvoiceDetailID"]),
                             ProductID = reader["ProductID"].ToString(),
-                            Product = new ThongTinSanPham { ProductName = reader["ProductName"].ToString() },
+                            Product = new ThongTinSanPham { ProductName = reader["ProductName"].ToString(), Price = Convert.ToDecimal(reader["UnitPrice"]) },
                             Quantity = Convert.ToInt32(reader["Quantity"]),
                             TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
                         };
@@ -131,8 +136,16 @@ namespace CuaHangWindowForm.View.HoaDon
 
                 foreach (var detail in invoiceDetails)
                 {
-                    dataGridViewInvoiceDetails.Rows.Add(detail.ProductID, detail.Product.ProductName, detail.Quantity, detail.Product.Price, detail.TotalPrice);
+                    var row = dataGridViewInvoiceDetails.Rows.Insert(1);
+                    row["ProductID"] = detail.ProductID;
+                    row["ProductName"] = detail.Product.ProductName;
+                    row["Quantity"] = detail.Quantity;
+                    row["UnitPrice"] = detail.Product.Price;
+                    row["TotalPrice"] = detail.TotalPrice;
                 }
+
+                // Remove empty rows after loading invoice details
+                RemoveEmptyRows();
             }
             catch (Exception ex)
             {
@@ -142,178 +155,121 @@ namespace CuaHangWindowForm.View.HoaDon
 
         private void InitializeInvoiceDetailsGrid()
         {
-            dataGridViewInvoiceDetails.Columns.Clear();
+            dataGridViewInvoiceDetails.Cols.Count = 7;
 
-            dataGridViewInvoiceDetails.Columns.Add("ProductID", "Mã sản phẩm");
+            dataGridViewInvoiceDetails.Cols[1].Name = "ProductID";
+            dataGridViewInvoiceDetails.Cols[1].Caption = "Mã sản phẩm";
+            dataGridViewInvoiceDetails.Cols[1].DataType = typeof(string);
+            dataGridViewInvoiceDetails.Cols[1].AllowEditing = false;
 
-            var productNameColumn = new DataGridViewComboBoxColumn
-            {
-                Name = "ProductName",
-                HeaderText = "Tên sản phẩm",
-                DataSource = _products,
-                DisplayMember = "ProductName",
-                ValueMember = "ProductName",
-                DataPropertyName = "ProductName"
-            };
-            dataGridViewInvoiceDetails.Columns.Add(productNameColumn);
+            dataGridViewInvoiceDetails.Cols[2].Name = "ProductName";
+            dataGridViewInvoiceDetails.Cols[2].Caption = "Sản phẩm";
+            dataGridViewInvoiceDetails.Cols[2].DataType = typeof(string);
+            dataGridViewInvoiceDetails.Cols[2].ComboList = string.Join("|", _products.Select(p => p.ProductName));
+            dataGridViewInvoiceDetails.Cols[2].AllowEditing = true;
 
-            var quantityColumn = new DataGridViewTextBoxColumn
-            {
-                Name = "Quantity",
-                HeaderText = "Số lượng",
-                ReadOnly = false
-            };
-            dataGridViewInvoiceDetails.Columns.Add(quantityColumn);
-            dataGridViewInvoiceDetails.Columns.Add("UnitPrice", "Đơn giá");
-            dataGridViewInvoiceDetails.Columns.Add("TotalPrice", "Tổng giá");
+            dataGridViewInvoiceDetails.Cols[3].Name = "Quantity";
+            dataGridViewInvoiceDetails.Cols[3].Caption = "Số lượng";
+            dataGridViewInvoiceDetails.Cols[3].DataType = typeof(int);
+            dataGridViewInvoiceDetails.Cols[3].AllowEditing = true;
 
-            var deleteButtonColumn = new DataGridViewButtonColumn
-            {
-                Name = "Delete",
-                HeaderText = "Xóa",
-                Text = "Xóa",
-                UseColumnTextForButtonValue = true
-            };
-            dataGridViewInvoiceDetails.Columns.Add(deleteButtonColumn);
 
-            dataGridViewInvoiceDetails.CellEndEdit += DataGridViewInvoiceDetails_CellEndEdit;
-            dataGridViewInvoiceDetails.CellValueChanged += DataGridViewInvoiceDetails_CellValueChanged;
-            dataGridViewInvoiceDetails.EditingControlShowing += DataGridViewInvoiceDetails_EditingControlShowing;
-            dataGridViewInvoiceDetails.CellContentClick += DataGridViewInvoiceDetails_CellContentClick;
+            dataGridViewInvoiceDetails.Cols[4].Name = "UnitPrice";
+            dataGridViewInvoiceDetails.Cols[4].Caption = "Đơn giá";
+            dataGridViewInvoiceDetails.Cols[4].DataType = typeof(decimal);
+            dataGridViewInvoiceDetails.Cols[4].AllowEditing = false;
+
+            dataGridViewInvoiceDetails.Cols[5].Name = "TotalPrice";
+            dataGridViewInvoiceDetails.Cols[5].Caption = "Tổng giá";
+            dataGridViewInvoiceDetails.Cols[5].DataType = typeof(decimal);
+            dataGridViewInvoiceDetails.Cols[5].AllowEditing = false;
+
+            dataGridViewInvoiceDetails.Cols[6].Name = "Delete";
+            dataGridViewInvoiceDetails.Cols[6].Caption = "Xóa";
+            dataGridViewInvoiceDetails.Cols[6].ShowButtons = ShowButtonsEnum.Always;
+
+            // Set the row count to the fixed row count to ensure the grid is empty
+            dataGridViewInvoiceDetails.Rows.Count = dataGridViewInvoiceDetails.Rows.Fixed;
+
+            // Event handlers
+            dataGridViewInvoiceDetails.CellButtonClick += DataGridViewInvoiceDetails_CellButtonClick;
+            dataGridViewInvoiceDetails.AfterEdit += DataGridViewInvoiceDetails_AfterEdit;
+            dataGridViewInvoiceDetails.StartEdit += DataGridViewInvoiceDetails_StartEdit;
         }
 
-        private void DataGridViewInvoiceDetails_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridViewInvoiceDetails_CellButtonClick(object sender, RowColEventArgs e)
         {
-            if (e.ColumnIndex == dataGridViewInvoiceDetails.Columns["Delete"].Index && e.RowIndex >= 0)
+            if (e.Col == dataGridViewInvoiceDetails.Cols["Delete"].Index && e.Row >= 0)
             {
-                dataGridViewInvoiceDetails.Rows.RemoveAt(e.RowIndex);
-                UpdateTotalPrice();
+                dataGridViewInvoiceDetails.Rows.Remove(e.Row); // Remove the row from the grid
+
+                UpdateTotalPrice(); // Recalculate total price after deletion
             }
         }
 
-        private void DataGridViewInvoiceDetails_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        private void DataGridViewInvoiceDetails_StartEdit(object sender, RowColEventArgs e)
         {
-            if (dataGridViewInvoiceDetails.CurrentCell.ColumnIndex == dataGridViewInvoiceDetails.Columns["ProductName"].Index)
+            if (e.Row >= dataGridViewInvoiceDetails.Rows.Fixed)
             {
-                ComboBox comboBox = e.Control as ComboBox;
-                if (comboBox != null)
+                var productID = dataGridViewInvoiceDetails[e.Row, "ProductID"]?.ToString();
+                if (!string.IsNullOrEmpty(productID))
                 {
-                    comboBox.SelectedIndexChanged -= ComboBox_SelectedIndexChanged;
-                    comboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
+                    if (e.Col == dataGridViewInvoiceDetails.Cols["ProductName"].Index || e.Col == dataGridViewInvoiceDetails.Cols["Quantity"].Index)
+                    {
+                        dataGridViewInvoiceDetails.Cols["ProductName"].AllowEditing = true;
+                        dataGridViewInvoiceDetails.Cols["Quantity"].AllowEditing = true;
+                        _previousProductName = dataGridViewInvoiceDetails[e.Row, "ProductName"]?.ToString(); // Store the previous product name
+                    }
+                }
+                else
+                {
+                    dataGridViewInvoiceDetails.Cols["ProductName"].AllowEditing = false;
+                    dataGridViewInvoiceDetails.Cols["Quantity"].AllowEditing = false;
                 }
             }
         }
 
-        private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private string _previousProductName;
+        private void DataGridViewInvoiceDetails_AfterEdit(object sender, RowColEventArgs e)
         {
-            var comboBox = sender as ComboBox;
-            if (comboBox != null && comboBox.SelectedItem != null)
+            if (e.Col == dataGridViewInvoiceDetails.Cols["ProductName"].Index && e.Row >= 0)
             {
-                var selectedProductName = comboBox.GetItemText(comboBox.SelectedItem);
-                var row = dataGridViewInvoiceDetails.CurrentRow;
+                var row = dataGridViewInvoiceDetails.Rows[e.Row];
+                var selectedProductName = row["ProductName"].ToString();
                 var selectedProduct = _products.FirstOrDefault(p => p.ProductName == selectedProductName);
 
                 if (selectedProduct != null)
                 {
                     // Check for duplicate product
-                    foreach (DataGridViewRow existingRow in dataGridViewInvoiceDetails.Rows)
+                    for (int i = dataGridViewInvoiceDetails.Rows.Fixed; i < dataGridViewInvoiceDetails.Rows.Count; i++)
                     {
-                        if (existingRow.Index != row.Index && existingRow.Cells["ProductID"].Value != null &&
-                            existingRow.Cells["ProductID"].Value.ToString() == selectedProduct.ProductID)
+                        if (i != e.Row && dataGridViewInvoiceDetails[i, "ProductID"]?.ToString() == selectedProduct.ProductID)
                         {
                             MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
-                            comboBox.SelectedIndexChanged -= ComboBox_SelectedIndexChanged;
-                            comboBox.SelectedItem = null;
-                            comboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
+                            row["ProductName"] = _previousProductName; // Restore the previous product name
                             return;
                         }
                     }
 
-                    row.Cells["ProductID"].Value = selectedProduct.ProductID;
-                    row.Cells["UnitPrice"].Value = selectedProduct.Price;
-                    if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int quantity))
+                    row["ProductID"] = selectedProduct.ProductID;
+                    row["UnitPrice"] = selectedProduct.Price;
+                    if (int.TryParse(row["Quantity"]?.ToString(), out int quantity))
                     {
                         var totalPrice = quantity * selectedProduct.Price;
-                        row.Cells["TotalPrice"].Value = totalPrice;
-                        UpdateTotalPrice();
+                        row["TotalPrice"] = totalPrice;
                     }
+                    UpdateTotalPrice();
                 }
             }
-        }
-
-        private void DataGridViewInvoiceDetails_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == dataGridViewInvoiceDetails.Columns["Quantity"].Index && e.RowIndex >= 0)
+            else if (e.Col == dataGridViewInvoiceDetails.Cols["Quantity"].Index && e.Row >= 0)
             {
-                var row = dataGridViewInvoiceDetails.Rows[e.RowIndex];
-                var quantity = Convert.ToInt32(row.Cells["Quantity"].Value);
-                var unitPrice = Convert.ToDecimal(row.Cells["UnitPrice"].Value);
-                var totalPrice = quantity * unitPrice;
-                row.Cells["TotalPrice"].Value = totalPrice;
-                UpdateTotalPrice();
-            }
-            else if (e.ColumnIndex == dataGridViewInvoiceDetails.Columns["ProductName"].Index && e.RowIndex >= 0)
-            {
-                var row = dataGridViewInvoiceDetails.Rows[e.RowIndex];
-                var selectedProductName = row.Cells["ProductName"].Value?.ToString();
-                var selectedProduct = _products.FirstOrDefault(p => p.ProductName == selectedProductName);
-
-                if (selectedProduct != null)
+                var row = dataGridViewInvoiceDetails.Rows[e.Row];
+                if (int.TryParse(row["Quantity"]?.ToString(), out int quantity))
                 {
-                    // Check for duplicate product
-                    foreach (DataGridViewRow existingRow in dataGridViewInvoiceDetails.Rows)
-                    {
-                        if (existingRow.Index != e.RowIndex && existingRow.Cells["ProductID"].Value != null &&
-                            existingRow.Cells["ProductID"].Value.ToString() == selectedProduct.ProductID)
-                        {
-                            MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
-                            row.Cells["ProductName"].Value = null;
-                            return;
-                        }
-                    }
-
-                    row.Cells["ProductID"].Value = selectedProduct.ProductID;
-                    row.Cells["UnitPrice"].Value = selectedProduct.Price;
-                    if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int quantity))
-                    {
-                        var totalPrice = quantity * selectedProduct.Price;
-                        row.Cells["TotalPrice"].Value = totalPrice;
-                        UpdateTotalPrice();
-                    }
-                }
-            }
-        }
-
-        private void DataGridViewInvoiceDetails_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == dataGridViewInvoiceDetails.Columns["ProductName"].Index && e.RowIndex >= 0)
-            {
-                var row = dataGridViewInvoiceDetails.Rows[e.RowIndex];
-                var selectedProductName = row.Cells["ProductName"].Value?.ToString();
-                var selectedProduct = _products.FirstOrDefault(p => p.ProductName == selectedProductName);
-
-                if (selectedProduct != null)
-                {
-                    // Check for duplicate product
-                    foreach (DataGridViewRow existingRow in dataGridViewInvoiceDetails.Rows)
-                    {
-                        if (existingRow.Index != e.RowIndex && existingRow.Cells["ProductID"].Value != null &&
-                            existingRow.Cells["ProductID"].Value.ToString() == selectedProduct.ProductID)
-                        {
-                            MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
-                            row.Cells["ProductName"].Value = null;
-                            return;
-                        }
-                    }
-
-                    row.Cells["ProductID"].Value = selectedProduct.ProductID;
-                    row.Cells["UnitPrice"].Value = selectedProduct.Price;
-                    if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int quantity))
-                    {
-                        var totalPrice = quantity * selectedProduct.Price;
-                        row.Cells["TotalPrice"].Value = totalPrice;
-                        UpdateTotalPrice();
-                    }
+                    var unitPrice = Convert.ToDecimal(row["UnitPrice"]);
+                    var totalPrice = quantity * unitPrice;
+                    row["TotalPrice"] = totalPrice;
+                    UpdateTotalPrice();
                 }
             }
         }
@@ -325,30 +281,52 @@ namespace CuaHangWindowForm.View.HoaDon
             {
                 var product = addProductForm.SelectedProduct;
                 var quantity = addProductForm.Quantity;
-                var unitPrice = product.Price;
-                var totalPrice = quantity * unitPrice;
+
+                if (product == null)
+                {
+                    MessageBox.Show("Sản phẩm không hợp lệ.");
+                    return;
+                }
 
                 // Check for duplicate product
-                foreach (DataGridViewRow row in dataGridViewInvoiceDetails.Rows)
+                for (int i = dataGridViewInvoiceDetails.Rows.Fixed; i < dataGridViewInvoiceDetails.Rows.Count; i++)
                 {
-                    if (row.IsNewRow) continue;
-                    if (row.Cells["ProductID"].Value != null && row.Cells["ProductID"].Value.ToString() == product.ProductID)
+                    var row = dataGridViewInvoiceDetails.Rows[i];
+                    if (row["ProductID"] != null && row["ProductID"].ToString() == product.ProductID)
                     {
                         MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
                         return;
                     }
                 }
 
-                dataGridViewInvoiceDetails.Rows.Add(product.ProductID, product.ProductName, quantity, unitPrice, totalPrice);
+                // Add a new row at the bottom
+                var newRow = dataGridViewInvoiceDetails.Rows.Insert(1);
+
+                // Set the values for each cell in the new row
+                dataGridViewInvoiceDetails.SetData(newRow.Index, "ProductID", product.ProductID);
+                dataGridViewInvoiceDetails.SetData(newRow.Index, "ProductName", product.ProductName);
+                dataGridViewInvoiceDetails.SetData(newRow.Index, "Quantity", quantity);
+                dataGridViewInvoiceDetails.SetData(newRow.Index, "UnitPrice", product.Price);
+                dataGridViewInvoiceDetails.SetData(newRow.Index, "TotalPrice", quantity * product.Price);
+
                 UpdateTotalPrice();
             }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            string customerID = cmbCustomerID.SelectedValue.ToString();
-            DateTime invoiceDate = dtpInvoiceDate.Value;
-            decimal totalPrice = Convert.ToDecimal(txtTotalPrice.Text);
+            RemoveEmptyRows();
+
+            var selectedCustomer = cmbCustomerID.SelectedItem as ThongTinKhachHang;
+            if (selectedCustomer == null)
+            {
+                MessageBox.Show("Vui lòng chọn khách hàng.");
+                return;
+            }
+
+            string customerID = selectedCustomer.CustomerID;
+            DateTime invoiceDate = (DateTime)dtpInvoiceDate.Value;
+            decimal totalInvoicePrice = Convert.ToDecimal(txtTotalPrice.Text);
 
             if (string.IsNullOrEmpty(customerID))
             {
@@ -357,16 +335,35 @@ namespace CuaHangWindowForm.View.HoaDon
             }
 
             List<ThongTinChiTietHoaDon> invoiceDetails = new List<ThongTinChiTietHoaDon>();
-            foreach (DataGridViewRow row in dataGridViewInvoiceDetails.Rows)
+            for (int i = dataGridViewInvoiceDetails.Rows.Fixed; i < dataGridViewInvoiceDetails.Rows.Count; i++)
             {
-                if (row.IsNewRow) continue;
+                var row = dataGridViewInvoiceDetails.Rows[i];
+
+                // Skip empty rows
+                if (row["ProductID"] == null || row["Quantity"] == null || row["TotalPrice"] == null)
+                {
+                    continue;
+                }
+
+                // Validate row data
+                var productID = row["ProductID"].ToString();
+                if (!int.TryParse(row["Quantity"].ToString(), out int quantity) || quantity <= 0)
+                {
+                    MessageBox.Show("Số lượng sản phẩm không hợp lệ.");
+                    return;
+                }
+                if (!decimal.TryParse(row["TotalPrice"].ToString(), out decimal totalPrice) || totalPrice <= 0)
+                {
+                    MessageBox.Show("Tổng giá sản phẩm không hợp lệ.");
+                    return;
+                }
 
                 var detail = new ThongTinChiTietHoaDon
                 {
                     InvoiceID = _invoice.InvoiceID,
-                    ProductID = row.Cells["ProductID"].Value.ToString(),
-                    Quantity = Convert.ToInt32(row.Cells["Quantity"].Value),
-                    TotalPrice = Convert.ToDecimal(row.Cells["TotalPrice"].Value)
+                    ProductID = productID,
+                    Quantity = quantity,
+                    TotalPrice = totalPrice
                 };
                 invoiceDetails.Add(detail);
             }
@@ -393,7 +390,7 @@ namespace CuaHangWindowForm.View.HoaDon
                                 command.Parameters.AddWithValue("@InvoiceID", _invoice.InvoiceID);
                                 command.Parameters.AddWithValue("@CustomerID", customerID);
                                 command.Parameters.AddWithValue("@InvoiceDate", invoiceDate);
-                                command.Parameters.AddWithValue("@TotalPrice", totalPrice);
+                                command.Parameters.AddWithValue("@TotalPrice", totalInvoicePrice);
                                 command.ExecuteNonQuery();
                             }
 
@@ -406,9 +403,9 @@ namespace CuaHangWindowForm.View.HoaDon
                             }
 
                             // Insert updated details
+                            string insertDetailSql = "INSERT INTO InvoiceDetails (InvoiceID, ProductID, Quantity, TotalPrice) VALUES (@InvoiceID, @ProductID, @Quantity, @TotalPrice)";
                             foreach (var detail in invoiceDetails)
                             {
-                                string insertDetailSql = "INSERT INTO InvoiceDetails (InvoiceID, ProductID, Quantity, TotalPrice) VALUES (@InvoiceID, @ProductID, @Quantity, @TotalPrice)";
                                 using (SqlCommand command = new SqlCommand(insertDetailSql, connection, transaction))
                                 {
                                     command.Parameters.AddWithValue("@InvoiceID", detail.InvoiceID);
@@ -423,7 +420,7 @@ namespace CuaHangWindowForm.View.HoaDon
                             MessageBox.Show("Hóa đơn đã được cập nhật thành công");
                             this.Close();
                         }
-                        catch (Exception)
+                        catch
                         {
                             transaction.Rollback();
                             throw;
@@ -440,12 +437,21 @@ namespace CuaHangWindowForm.View.HoaDon
         private void UpdateTotalPrice()
         {
             decimal total = 0;
-            foreach (DataGridViewRow row in dataGridViewInvoiceDetails.Rows)
+            for (int i = dataGridViewInvoiceDetails.Rows.Fixed; i < dataGridViewInvoiceDetails.Rows.Count; i++)
             {
-                if (row.IsNewRow) continue;
-                total += Convert.ToDecimal(row.Cells["TotalPrice"].Value);
+                var row = dataGridViewInvoiceDetails.Rows[i];
+                total += Convert.ToDecimal(row["TotalPrice"]);
             }
+
             txtTotalPrice.Text = total.ToString("0.00");
+        }
+
+        private void RemoveEmptyRows()
+        {
+            foreach (var row in dataGridViewInvoiceDetails.Rows.Cast<C1.Win.C1FlexGrid.Row>().Where(r => r.IsNew || string.IsNullOrEmpty(r["ProductID"]?.ToString())).ToList())
+            {
+                dataGridViewInvoiceDetails.Rows.Remove(row);
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
