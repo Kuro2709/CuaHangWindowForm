@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Windows.Forms;
-using CuaHangWindowForm.Models;
-using C1.Win.C1Input;
 
 namespace CuaHangWindowForm.View.SanPham
 {
@@ -27,7 +25,7 @@ namespace CuaHangWindowForm.View.SanPham
         {
             if (string.IsNullOrEmpty(txtProductName.Text) || Convert.ToDecimal(numPrice.Value) <= 0)
             {
-                lblMessage.Text = "Tất cả các mục không được để trống";
+                MessageBox.Show("Tất cả các mục không được để trống", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -36,7 +34,7 @@ namespace CuaHangWindowForm.View.SanPham
                 var connectionStringSettings = System.Configuration.ConfigurationManager.ConnectionStrings["CuaHangWindowForm.Properties.Settings.ConnectionString"];
                 if (connectionStringSettings == null)
                 {
-                    lblMessage.Text = "Connection string 'CuaHangWindowForm.Properties.Settings.ConnectionString' not found.";
+                    MessageBox.Show("Connection string 'CuaHangWindowForm.Properties.Settings.ConnectionString' not found.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -53,12 +51,12 @@ namespace CuaHangWindowForm.View.SanPham
                         command.ExecuteNonQuery();
                     }
                 }
-                lblMessage.ForeColor = System.Drawing.Color.Green;
-                lblMessage.Text = "Sản phẩm đã được cập nhật thành công";
+
+                MessageBox.Show("Sản phẩm đã được cập nhật thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Delay for a short period to show the success message
                 var timer = new Timer();
-                timer.Interval = 1000; // 2 seconds
+                timer.Interval = 1000; // 1 second
                 timer.Tick += (s, args) =>
                 {
                     timer.Stop();
@@ -68,7 +66,7 @@ namespace CuaHangWindowForm.View.SanPham
             }
             catch (Exception ex)
             {
-                lblMessage.Text = "Exception: " + ex.Message;
+                MessageBox.Show("Exception: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

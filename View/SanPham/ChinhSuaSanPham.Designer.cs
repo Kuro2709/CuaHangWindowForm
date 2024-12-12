@@ -11,7 +11,6 @@
         private C1.Win.C1Input.C1NumericEdit numPrice;
         private C1.Win.C1Input.C1Button btnSave;
         private C1.Win.C1Input.C1Button btnCancel;
-        private C1.Win.C1Input.C1Label lblMessage;
 
         protected override void Dispose(bool disposing)
         {
@@ -32,7 +31,6 @@
             this.numPrice = new C1.Win.C1Input.C1NumericEdit();
             this.btnSave = new C1.Win.C1Input.C1Button();
             this.btnCancel = new C1.Win.C1Input.C1Button();
-            this.lblMessage = new C1.Win.C1Input.C1Label();
             ((System.ComponentModel.ISupportInitialize)(this.lblProductID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtProductID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblProductName)).BeginInit();
@@ -41,7 +39,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblMessage)).BeginInit();
             this.SuspendLayout();
             // 
             // lblProductID
@@ -118,15 +115,15 @@
             this.numPrice.Location = new System.Drawing.Point(200, 100);
             this.numPrice.Name = "numPrice";
             this.numPrice.PostValidation.Intervals.AddRange(new C1.Win.C1Input.ValueInterval[] {
-            new C1.Win.C1Input.ValueInterval(new decimal(new int[] {
-                            1,
-                            0,
-                            0,
-                            0}), new decimal(new int[] {
-                            1000000,
-                            0,
-                            0,
-                            0}), true, true)});
+                new C1.Win.C1Input.ValueInterval(new decimal(new int[] {
+                                1,
+                                0,
+                                0,
+                                0}), new decimal(new int[] {
+                                1000000,
+                                0,
+                                0,
+                                0}), true, true)});
             this.numPrice.Size = new System.Drawing.Size(200, 20);
             this.numPrice.TabIndex = 5;
             this.numPrice.Tag = null;
@@ -160,23 +157,11 @@
             this.btnCancel.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // lblMessage
-            // 
-            this.lblMessage.AutoSize = true;
-            this.lblMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lblMessage.ForeColor = System.Drawing.Color.Red;
-            this.lblMessage.Location = new System.Drawing.Point(50, 200);
-            this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(0, 16);
-            this.lblMessage.TabIndex = 8;
-            this.lblMessage.Tag = null;
-            // 
             // ChinhSuaSanPham
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(450, 250);
-            this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.numPrice);
@@ -196,7 +181,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSave)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblMessage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

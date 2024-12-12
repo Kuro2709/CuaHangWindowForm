@@ -28,6 +28,8 @@ namespace CuaHangWindowForm.View.HoaDon
             LoadCustomers();
             LoadProducts();
             LoadInvoiceDetails();
+
+            
         }
 
         private void LoadCustomers()
