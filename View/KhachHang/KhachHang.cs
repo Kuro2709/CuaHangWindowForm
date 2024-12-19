@@ -47,6 +47,7 @@ namespace WindowsFormsApp
 
                 dataGridViewCustomers.DataSource = null;
                 dataGridViewCustomers.DataSource = _customers;
+                dataGridViewCustomers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (Exception ex)
             {

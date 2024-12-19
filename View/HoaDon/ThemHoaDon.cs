@@ -95,7 +95,7 @@ namespace CuaHangWindowForm.View.HoaDon
         private void InitializeInvoiceDetailsGrid()
         {
             dataGridViewInvoiceDetails.Columns.Add("ProductID", "Mã sản phẩm");
-
+            dataGridViewInvoiceDetails.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             var productNameColumn = new DataGridViewComboBoxColumn
             {
                 Name = "ProductName",

@@ -64,6 +64,20 @@ namespace CuaHangWindowForm.View.KhachHang
         {
             this.Close();
         }
+        private void txtPhone_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow only digits and control characters
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '+' && e.KeyChar != '-' && e.KeyChar != '(' && e.KeyChar != ')')
+            {
+                e.Handled = true;
+            }
+
+            // Limit the length to 10 digits
+            if (char.IsDigit(e.KeyChar) && txtPhone.Text.Length >= 15)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }
 

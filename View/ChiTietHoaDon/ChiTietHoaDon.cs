@@ -59,6 +59,7 @@ namespace CuaHangWindowForm.View.HoaDon
 
                 dataGridViewInvoiceDetails.DataSource = null;
                 dataGridViewInvoiceDetails.DataSource = invoiceDetails;
+                dataGridViewInvoiceDetails.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
                 // Remove unwanted columns
                 dataGridViewInvoiceDetails.Columns["InvoiceDetailID"].Visible = false;

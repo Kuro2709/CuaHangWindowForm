@@ -29,13 +29,13 @@ namespace CuaHangWindowForm.View.KhachHang
         private void txtPhone_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Allow only digits and control characters
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '+' && e.KeyChar != '-' && e.KeyChar != '(' && e.KeyChar != ')')
             {
                 e.Handled = true;
             }
 
-            // Limit the length to 10 digits
-            if (char.IsDigit(e.KeyChar) && txtPhone.Text.Length >= 10)
+            // Limit the length to 15 digits
+            if (char.IsDigit(e.KeyChar) && txtPhone.Text.Length >= 15)
             {
                 e.Handled = true;
             }
@@ -59,9 +59,9 @@ namespace CuaHangWindowForm.View.KhachHang
                 return;
             }
 
-            if (!System.Text.RegularExpressions.Regex.IsMatch(phone, @"^\d{10}$"))
+            if (!System.Text.RegularExpressions.Regex.IsMatch(phone, @"^[\d\+\-\(\) ]{10,15}$"))
             {
-                MessageBox.Show("Số điện thoại phải chứa đúng 10 chữ số");
+                MessageBox.Show("Số điện thoại phải chứa đúng 15 chữ số");
                 return;
             }
 

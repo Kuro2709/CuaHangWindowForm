@@ -51,6 +51,7 @@ namespace CuaHangWindowForm.View.HoaDon
 
                 dataGridViewInvoices.DataSource = null;
                 dataGridViewInvoices.DataSource = _invoices;
+                dataGridViewInvoices.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (Exception ex)
             {

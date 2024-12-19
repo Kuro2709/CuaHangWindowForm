@@ -108,7 +108,7 @@ namespace CuaHangWindowForm.View.HoaDon
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT d.InvoiceDetailID, d.ProductID, p.ProductName, d.Quantity, d.TotalPrice FROM InvoiceDetails d JOIN Product p ON d.ProductID = p.ProductID WHERE d.InvoiceID = @InvoiceID";
+                    string query = "SELECT d.InvoiceDetailID, d.ProductID, p.ProductName, d.Quantity, d.TotalPrice, p.Price FROM InvoiceDetails d JOIN Product p ON d.ProductID = p.ProductID WHERE d.InvoiceID = @InvoiceID";
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@InvoiceID", _invoice.InvoiceID);
                     SqlDataReader reader = command.ExecuteReader();
@@ -119,7 +119,7 @@ namespace CuaHangWindowForm.View.HoaDon
                         {
                             InvoiceDetailID = Convert.ToInt32(reader["InvoiceDetailID"]),
                             ProductID = reader["ProductID"].ToString(),
-                            Product = new ThongTinSanPham { ProductName = reader["ProductName"].ToString() },
+                            Product = new ThongTinSanPham { ProductName = reader["ProductName"].ToString(), Price = Convert.ToDecimal(reader["Price"]) },
                             Quantity = Convert.ToInt32(reader["Quantity"]),
                             TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
                         };
@@ -143,7 +143,7 @@ namespace CuaHangWindowForm.View.HoaDon
         private void InitializeInvoiceDetailsGrid()
         {
             dataGridViewInvoiceDetails.Columns.Clear();
-
+            dataGridViewInvoiceDetails.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewInvoiceDetails.Columns.Add("ProductID", "Mã sản phẩm");
 
             var productNameColumn = new DataGridViewComboBoxColumn

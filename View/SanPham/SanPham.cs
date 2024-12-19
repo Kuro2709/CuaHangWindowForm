@@ -48,6 +48,7 @@ namespace WindowsFormsApp
 
                 dataGridViewProducts.DataSource = null;
                 dataGridViewProducts.DataSource = _products;
+                dataGridViewProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (Exception ex)
             {
