@@ -57,6 +57,7 @@
             this.txtInvoiceID.Name = "txtInvoiceID";
             this.txtInvoiceID.Size = new System.Drawing.Size(200, 22);
             this.txtInvoiceID.TabIndex = 1;
+            this.txtInvoiceID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtInvoiceID_KeyPress);
             // 
             // lblCustomerID
             // 
@@ -95,6 +96,7 @@
             // 
             // dataGridViewInvoiceDetails
             // 
+            this.dataGridViewInvoiceDetails.AllowUserToAddRows = false;
             this.dataGridViewInvoiceDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewInvoiceDetails.Location = new System.Drawing.Point(12, 110);
             this.dataGridViewInvoiceDetails.Name = "dataGridViewInvoiceDetails";
@@ -173,7 +175,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInvoiceDetails)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
     }
 }

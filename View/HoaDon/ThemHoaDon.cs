@@ -11,6 +11,7 @@ namespace CuaHangWindowForm.View.HoaDon
     public partial class ThemHoaDon : Form
     {
         private string _connectionString;
+        private int _previousQuantity;
         private List<ThongTinKhachHang> _customers;
         private List<ThongTinSanPham> _products;
 
@@ -18,6 +19,7 @@ namespace CuaHangWindowForm.View.HoaDon
         {
             InitializeComponent();
             _connectionString = ConfigurationManager.ConnectionStrings["CuaHangWindowForm.Properties.Settings.ConnectionString"].ConnectionString;
+          
         }
 
         private void ThemHoaDon_Load(object sender, EventArgs e)
@@ -240,6 +242,20 @@ namespace CuaHangWindowForm.View.HoaDon
             }
         }
 
+        private void DataGridViewInvoiceDetails_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (dataGridViewInvoiceDetails.Columns[e.ColumnIndex].Name == "Quantity")
+            {
+                if (int.TryParse(dataGridViewInvoiceDetails[e.ColumnIndex, e.RowIndex].Value?.ToString(), out int quantity))
+                {
+                    _previousQuantity = quantity;
+                }
+                else
+                {
+                    _previousQuantity = 1;
+                }
+            }
+        }
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
@@ -378,6 +394,35 @@ namespace CuaHangWindowForm.View.HoaDon
             dtpInvoiceDate.Value = DateTime.Now;
             dataGridViewInvoiceDetails.Rows.Clear();
             txtTotalPrice.Text = "0.00";
+        }
+        private void dataGridViewInvoiceDetails_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (dataGridViewInvoiceDetails.Columns[e.ColumnIndex].Name == "Quantity")
+            {
+                if (int.TryParse(e.FormattedValue.ToString(), out int quantity))
+                {
+                    if (quantity <= 0)
+                    {
+                        e.Cancel = true;
+                        MessageBox.Show("Số lượng không được nhỏ hơn hoặc bằng 0.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        dataGridViewInvoiceDetails[e.ColumnIndex, e.RowIndex].Value = _previousQuantity;
+                    }
+                }
+                else
+                {
+                    e.Cancel = true;
+                    MessageBox.Show("Vui lòng nhập một số hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dataGridViewInvoiceDetails[e.ColumnIndex, e.RowIndex].Value = _previousQuantity;
+                }
+            }
+        }
+        private void txtInvoiceID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsWhiteSpace(e.KeyChar))
+            {
+                e.Handled = true;
+                
+            }
         }
     }
 }
