@@ -96,6 +96,7 @@
             // 
             // dataGridViewInvoiceDetails
             // 
+            this.dataGridViewInvoiceDetails.AllowUserToAddRows = false;
             this.dataGridViewInvoiceDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewInvoiceDetails.Location = new System.Drawing.Point(12, 110);
             this.dataGridViewInvoiceDetails.Name = "dataGridViewInvoiceDetails";
@@ -103,6 +104,7 @@
             this.dataGridViewInvoiceDetails.RowTemplate.Height = 24;
             this.dataGridViewInvoiceDetails.Size = new System.Drawing.Size(776, 250);
             this.dataGridViewInvoiceDetails.TabIndex = 6;
+            this.dataGridViewInvoiceDetails.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridViewInvoiceDetails_CellValidating);
             // 
             // btnAddDetailRow
             // 
@@ -174,7 +176,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInvoiceDetails)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
     }
 }

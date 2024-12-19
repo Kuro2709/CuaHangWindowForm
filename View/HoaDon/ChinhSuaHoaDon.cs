@@ -452,5 +452,24 @@ namespace CuaHangWindowForm.View.HoaDon
         {
             this.Close();
         }
+        private void dataGridViewInvoiceDetails_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (dataGridViewInvoiceDetails.Columns[e.ColumnIndex].Name == "Quantity")
+            {
+                if (int.TryParse(e.FormattedValue.ToString(), out int quantity))
+                {
+                    if (quantity <= 0)
+                    {
+                        e.Cancel = true;
+                        MessageBox.Show("Số lượng không được nhỏ hơn hoặc bằng 0.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    e.Cancel = true;
+                    MessageBox.Show("Vui lòng nhập một số hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }
