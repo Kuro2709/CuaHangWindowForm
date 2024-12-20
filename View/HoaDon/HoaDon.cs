@@ -61,8 +61,8 @@ namespace CuaHangWindowForm.View.HoaDon
 
         private void btnAddInvoice_Click(object sender, EventArgs e)
         {
-            // Navigate to the Add Invoice form
-            var addInvoiceForm = new ThemHoaDon();
+            // Open the ChinhSuaHoaDon form in add mode
+            var addInvoiceForm = new ThemVaChinhSuaHoaDon();
             addInvoiceForm.ShowDialog();
             LoadInvoices(); // Reload invoices after adding
         }
@@ -72,7 +72,7 @@ namespace CuaHangWindowForm.View.HoaDon
             if (dataGridViewInvoices.SelectedRows.Count > 0)
             {
                 var selectedInvoice = (ThongTinHoaDon)dataGridViewInvoices.SelectedRows[0].DataBoundItem;
-                var editInvoiceForm = new ChinhSuaHoaDon(selectedInvoice);
+                var editInvoiceForm = new ThemVaChinhSuaHoaDon(selectedInvoice);
                 editInvoiceForm.ShowDialog();
                 LoadInvoices(); // Reload invoices after editing
             }

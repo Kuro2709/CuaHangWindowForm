@@ -80,11 +80,11 @@
     <Compile Include="View\HoaDon\AddProductForm.Designer.cs">
       <DependentUpon>AddProductForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\HoaDon\ChinhSuaHoaDon.cs">
+    <Compile Include="View\HoaDon\ThemVaChinhSuaHoaDon.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\HoaDon\ChinhSuaHoaDon.Designer.cs">
-      <DependentUpon>ChinhSuaHoaDon.cs</DependentUpon>
+    <Compile Include="View\HoaDon\ThemVaChinhSuaHoaDon.Designer.cs">
+      <DependentUpon>ThemVaChinhSuaHoaDon.cs</DependentUpon>
     </Compile>
     <Compile Include="View\HoaDon\HoaDon.cs">
       <SubType>Form</SubType>
@@ -92,17 +92,11 @@
     <Compile Include="View\HoaDon\HoaDon.Designer.cs">
       <DependentUpon>HoaDon.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\HoaDon\ThemHoaDon.cs">
+    <Compile Include="View\KhachHang\ThemVaChinhSuaKhachHang.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\HoaDon\ThemHoaDon.Designer.cs">
-      <DependentUpon>ThemHoaDon.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\KhachHang\ChinhSuaKhachHang.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\KhachHang\ChinhSuaKhachHang.Designer.cs">
-      <DependentUpon>ChinhSuaKhachHang.cs</DependentUpon>
+    <Compile Include="View\KhachHang\ThemVaChinhSuaKhachHang.Designer.cs">
+      <DependentUpon>ThemVaChinhSuaKhachHang.cs</DependentUpon>
     </Compile>
     <Compile Include="View\KhachHang\KhachHang.cs">
       <SubType>Form</SubType>
@@ -110,29 +104,17 @@
     <Compile Include="View\KhachHang\KhachHang.Designer.cs">
       <DependentUpon>KhachHang.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\KhachHang\ThemKhachHang.cs">
+    <Compile Include="View\SanPham\ThemVaChinhSuaSanPham.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\KhachHang\ThemKhachHang.Designer.cs">
-      <DependentUpon>ThemKhachHang.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\SanPham\ChinhSuaSanPham.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\SanPham\ChinhSuaSanPham.Designer.cs">
-      <DependentUpon>ChinhSuaSanPham.cs</DependentUpon>
+    <Compile Include="View\SanPham\ThemVaChinhSuaSanPham.Designer.cs">
+      <DependentUpon>ThemVaChinhSuaSanPham.cs</DependentUpon>
     </Compile>
     <Compile Include="View\SanPham\SanPham.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\SanPham\SanPham.Designer.cs">
       <DependentUpon>SanPham.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\SanPham\ThemSanPham.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\SanPham\ThemSanPham.Designer.cs">
-      <DependentUpon>ThemSanPham.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -152,32 +134,23 @@
     <EmbeddedResource Include="View\HoaDon\AddProductForm.resx">
       <DependentUpon>AddProductForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\HoaDon\ChinhSuaHoaDon.resx">
-      <DependentUpon>ChinhSuaHoaDon.cs</DependentUpon>
+    <EmbeddedResource Include="View\HoaDon\ThemVaChinhSuaHoaDon.resx">
+      <DependentUpon>ThemVaChinhSuaHoaDon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\HoaDon\HoaDon.resx">
       <DependentUpon>HoaDon.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\HoaDon\ThemHoaDon.resx">
-      <DependentUpon>ThemHoaDon.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\KhachHang\ChinhSuaKhachHang.resx">
-      <DependentUpon>ChinhSuaKhachHang.cs</DependentUpon>
+    <EmbeddedResource Include="View\KhachHang\ThemVaChinhSuaKhachHang.resx">
+      <DependentUpon>ThemVaChinhSuaKhachHang.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\KhachHang\KhachHang.resx">
       <DependentUpon>KhachHang.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\KhachHang\ThemKhachHang.resx">
-      <DependentUpon>ThemKhachHang.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\SanPham\ChinhSuaSanPham.resx">
-      <DependentUpon>ChinhSuaSanPham.cs</DependentUpon>
+    <EmbeddedResource Include="View\SanPham\ThemVaChinhSuaSanPham.resx">
+      <DependentUpon>ThemVaChinhSuaSanPham.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SanPham\SanPham.resx">
       <DependentUpon>SanPham.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\SanPham\ThemSanPham.resx">
-      <DependentUpon>ThemSanPham.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="cuahangDataSet.xsc">
       <DependentUpon>cuahangDataSet.xsd</DependentUpon>

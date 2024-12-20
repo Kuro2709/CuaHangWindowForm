@@ -8,25 +8,32 @@ using CuaHangWindowForm.Models;
 
 namespace CuaHangWindowForm.View.HoaDon
 {
-    public partial class ThemHoaDon : Form
+    public partial class ThemVaChinhSuaHoaDon : Form
     {
         private string _connectionString;
-        private int _previousQuantity;
+        private ThongTinHoaDon _invoice;
         private List<ThongTinKhachHang> _customers;
         private List<ThongTinSanPham> _products;
+        private bool _isUpdate;
 
-        public ThemHoaDon()
+        public ThemVaChinhSuaHoaDon(ThongTinHoaDon invoice = null)
         {
             InitializeComponent();
             _connectionString = ConfigurationManager.ConnectionStrings["CuaHangWindowForm.Properties.Settings.ConnectionString"].ConnectionString;
-          
+            _invoice = invoice;
+            _isUpdate = invoice != null;
         }
 
-        private void ThemHoaDon_Load(object sender, EventArgs e)
+        private void ChinhSuaHoaDon_Load(object sender, EventArgs e)
         {
             LoadCustomers();
             LoadProducts();
             InitializeInvoiceDetailsGrid();
+            if (_isUpdate)
+            {
+                LoadInvoiceDetails();
+                txtInvoiceID.ReadOnly = true; // Make InvoiceID read-only in edit mode
+            }
         }
 
         private void LoadCustomers()
@@ -56,6 +63,10 @@ namespace CuaHangWindowForm.View.HoaDon
                 cmbCustomerID.DataSource = _customers;
                 cmbCustomerID.DisplayMember = "CustomerName";
                 cmbCustomerID.ValueMember = "CustomerID";
+                if (_isUpdate)
+                {
+                    cmbCustomerID.SelectedValue = _invoice.CustomerID;
+                }
             }
             catch (Exception ex)
             {
@@ -94,10 +105,57 @@ namespace CuaHangWindowForm.View.HoaDon
             }
         }
 
+        private void LoadInvoiceDetails()
+        {
+            txtInvoiceID.Text = _invoice.InvoiceID;
+            dtpInvoiceDate.Value = _invoice.InvoiceDate;
+            txtTotalPrice.Text = _invoice.TotalPrice.ToString("0.00");
+
+            List<ThongTinChiTietHoaDon> invoiceDetails = new List<ThongTinChiTietHoaDon>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT d.InvoiceDetailID, d.ProductID, p.ProductName, d.Quantity, d.TotalPrice, p.Price FROM InvoiceDetails d JOIN Product p ON d.ProductID = p.ProductID WHERE d.InvoiceID = @InvoiceID";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@InvoiceID", _invoice.InvoiceID);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        var detail = new ThongTinChiTietHoaDon
+                        {
+                            InvoiceDetailID = Convert.ToInt32(reader["InvoiceDetailID"]),
+                            ProductID = reader["ProductID"].ToString(),
+                            Product = new ThongTinSanPham { ProductName = reader["ProductName"].ToString(), Price = Convert.ToDecimal(reader["Price"]) },
+                            Quantity = Convert.ToInt32(reader["Quantity"]),
+                            TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
+                        };
+                        invoiceDetails.Add(detail);
+                    }
+                }
+
+                InitializeInvoiceDetailsGrid();
+
+                foreach (var detail in invoiceDetails)
+                {
+                    dataGridViewInvoiceDetails.Rows.Add(detail.ProductID, detail.Product.ProductName, detail.Quantity, detail.Product.Price, detail.TotalPrice);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+            }
+        }
+
         private void InitializeInvoiceDetailsGrid()
         {
-            dataGridViewInvoiceDetails.Columns.Add("ProductID", "Mã sản phẩm");
+            dataGridViewInvoiceDetails.Columns.Clear();
             dataGridViewInvoiceDetails.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewInvoiceDetails.Columns.Add("ProductID", "Mã sản phẩm");
+
             var productNameColumn = new DataGridViewComboBoxColumn
             {
                 Name = "ProductName",
@@ -143,8 +201,6 @@ namespace CuaHangWindowForm.View.HoaDon
             }
         }
 
-
-
         private void DataGridViewInvoiceDetails_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             if (dataGridViewInvoiceDetails.CurrentCell.ColumnIndex == dataGridViewInvoiceDetails.Columns["ProductName"].Index)
@@ -169,28 +225,20 @@ namespace CuaHangWindowForm.View.HoaDon
 
                 if (selectedProduct != null)
                 {
-                    row.Cells["ProductID"].Value = selectedProduct.ProductID;
-                    row.Cells["UnitPrice"].Value = selectedProduct.Price;
-                    if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int quantity))
+                    // Check for duplicate product
+                    foreach (DataGridViewRow existingRow in dataGridViewInvoiceDetails.Rows)
                     {
-                        var totalPrice = quantity * selectedProduct.Price;
-                        row.Cells["TotalPrice"].Value = totalPrice;
-                        UpdateTotalPrice();
+                        if (existingRow.Index != row.Index && existingRow.Cells["ProductID"].Value != null &&
+                            existingRow.Cells["ProductID"].Value.ToString() == selectedProduct.ProductID)
+                        {
+                            MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
+                            comboBox.SelectedIndexChanged -= ComboBox_SelectedIndexChanged;
+                            comboBox.SelectedItem = null;
+                            comboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
+                            return;
+                        }
                     }
-                }
-            }
-        }
 
-        private void DataGridViewInvoiceDetails_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == dataGridViewInvoiceDetails.Columns["ProductName"].Index && e.RowIndex >= 0)
-            {
-                var row = dataGridViewInvoiceDetails.Rows[e.RowIndex];
-                var selectedProductName = row.Cells["ProductName"].Value?.ToString();
-                var selectedProduct = _products.FirstOrDefault(p => p.ProductName == selectedProductName);
-
-                if (selectedProduct != null)
-                {
                     row.Cells["ProductID"].Value = selectedProduct.ProductID;
                     row.Cells["UnitPrice"].Value = selectedProduct.Price;
                     if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int quantity))
@@ -214,6 +262,70 @@ namespace CuaHangWindowForm.View.HoaDon
                 row.Cells["TotalPrice"].Value = totalPrice;
                 UpdateTotalPrice();
             }
+            else if (e.ColumnIndex == dataGridViewInvoiceDetails.Columns["ProductName"].Index && e.RowIndex >= 0)
+            {
+                var row = dataGridViewInvoiceDetails.Rows[e.RowIndex];
+                var selectedProductName = row.Cells["ProductName"].Value?.ToString();
+                var selectedProduct = _products.FirstOrDefault(p => p.ProductName == selectedProductName);
+
+                if (selectedProduct != null)
+                {
+                    // Check for duplicate product
+                    foreach (DataGridViewRow existingRow in dataGridViewInvoiceDetails.Rows)
+                    {
+                        if (existingRow.Index != e.RowIndex && existingRow.Cells["ProductID"].Value != null &&
+                            existingRow.Cells["ProductID"].Value.ToString() == selectedProduct.ProductID)
+                        {
+                            MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
+                            row.Cells["ProductName"].Value = null;
+                            return;
+                        }
+                    }
+
+                    row.Cells["ProductID"].Value = selectedProduct.ProductID;
+                    row.Cells["UnitPrice"].Value = selectedProduct.Price;
+                    if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int quantity))
+                    {
+                        var totalPrice = quantity * selectedProduct.Price;
+                        row.Cells["TotalPrice"].Value = totalPrice;
+                        UpdateTotalPrice();
+                    }
+                }
+            }
+        }
+
+        private void DataGridViewInvoiceDetails_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridViewInvoiceDetails.Columns["ProductName"].Index && e.RowIndex >= 0)
+            {
+                var row = dataGridViewInvoiceDetails.Rows[e.RowIndex];
+                var selectedProductName = row.Cells["ProductName"].Value?.ToString();
+                var selectedProduct = _products.FirstOrDefault(p => p.ProductName == selectedProductName);
+
+                if (selectedProduct != null)
+                {
+                    // Check for duplicate product
+                    foreach (DataGridViewRow existingRow in dataGridViewInvoiceDetails.Rows)
+                    {
+                        if (existingRow.Index != e.RowIndex && existingRow.Cells["ProductID"].Value != null &&
+                            existingRow.Cells["ProductID"].Value.ToString() == selectedProduct.ProductID)
+                        {
+                            MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
+                            row.Cells["ProductName"].Value = null;
+                            return;
+                        }
+                    }
+
+                    row.Cells["ProductID"].Value = selectedProduct.ProductID;
+                    row.Cells["UnitPrice"].Value = selectedProduct.Price;
+                    if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int quantity))
+                    {
+                        var totalPrice = quantity * selectedProduct.Price;
+                        row.Cells["TotalPrice"].Value = totalPrice;
+                        UpdateTotalPrice();
+                    }
+                }
+            }
         }
 
         private void btnAddDetailRow_Click(object sender, EventArgs e)
@@ -230,7 +342,7 @@ namespace CuaHangWindowForm.View.HoaDon
                 foreach (DataGridViewRow row in dataGridViewInvoiceDetails.Rows)
                 {
                     if (row.IsNewRow) continue;
-                    if (row.Cells["ProductID"].Value.ToString() == product.ProductID)
+                    if (row.Cells["ProductID"].Value != null && row.Cells["ProductID"].Value.ToString() == product.ProductID)
                     {
                         MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn.");
                         return;
@@ -242,36 +354,16 @@ namespace CuaHangWindowForm.View.HoaDon
             }
         }
 
-        private void DataGridViewInvoiceDetails_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
-            if (dataGridViewInvoiceDetails.Columns[e.ColumnIndex].Name == "Quantity")
-            {
-                if (int.TryParse(dataGridViewInvoiceDetails[e.ColumnIndex, e.RowIndex].Value?.ToString(), out int quantity))
-                {
-                    _previousQuantity = quantity;
-                }
-                else
-                {
-                    _previousQuantity = 1;
-                }
-            }
-        }
-
-        private void btnSubmit_Click(object sender, EventArgs e)
-        {
-            string invoiceID = txtInvoiceID.Text.Trim().ToUpper().Replace(" ", "");
+            string invoiceID = txtInvoiceID.Text.Trim().ToUpper();
             string customerID = cmbCustomerID.SelectedValue.ToString();
             DateTime invoiceDate = dtpInvoiceDate.Value;
+            decimal totalPrice = Convert.ToDecimal(txtTotalPrice.Text);
 
             if (string.IsNullOrEmpty(invoiceID) || string.IsNullOrEmpty(customerID))
             {
                 MessageBox.Show("Tất cả các mục đều bắt buộc, không được để trống");
-                return;
-            }
-
-            if (InvoiceExists(invoiceID))
-            {
-                MessageBox.Show("Mã hóa đơn đã tồn tại, xin vui lòng nhập mã mới");
                 return;
             }
 
@@ -296,13 +388,6 @@ namespace CuaHangWindowForm.View.HoaDon
                 return;
             }
 
-            decimal totalPrice;
-            if (!decimal.TryParse(txtTotalPrice.Text, out totalPrice) || totalPrice == 0)
-            {
-                MessageBox.Show("Tổng giá phải lớn hơn 0.");
-                return;
-            }
-
             try
             {
                 using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -312,15 +397,39 @@ namespace CuaHangWindowForm.View.HoaDon
                     {
                         try
                         {
-                            // Insert invoice
-                            string insertInvoiceSql = "INSERT INTO Invoice (InvoiceID, CustomerID, InvoiceDate, TotalPrice) VALUES (@InvoiceID, @CustomerID, @InvoiceDate, @TotalPrice)";
-                            using (SqlCommand command = new SqlCommand(insertInvoiceSql, connection, transaction))
+                            if (_isUpdate)
                             {
-                                command.Parameters.AddWithValue("@InvoiceID", invoiceID);
-                                command.Parameters.AddWithValue("@CustomerID", customerID);
-                                command.Parameters.AddWithValue("@InvoiceDate", invoiceDate);
-                                command.Parameters.AddWithValue("@TotalPrice", totalPrice);
-                                command.ExecuteNonQuery();
+                                // Update invoice
+                                string updateInvoiceSql = "UPDATE Invoice SET CustomerID = @CustomerID, InvoiceDate = @InvoiceDate, TotalPrice = @TotalPrice WHERE InvoiceID = @InvoiceID";
+                                using (SqlCommand command = new SqlCommand(updateInvoiceSql, connection, transaction))
+                                {
+                                    command.Parameters.AddWithValue("@InvoiceID", invoiceID);
+                                    command.Parameters.AddWithValue("@CustomerID", customerID);
+                                    command.Parameters.AddWithValue("@InvoiceDate", invoiceDate);
+                                    command.Parameters.AddWithValue("@TotalPrice", totalPrice);
+                                    command.ExecuteNonQuery();
+                                }
+
+                                // Delete existing details
+                                string deleteDetailsSql = "DELETE FROM InvoiceDetails WHERE InvoiceID = @InvoiceID";
+                                using (SqlCommand command = new SqlCommand(deleteDetailsSql, connection, transaction))
+                                {
+                                    command.Parameters.AddWithValue("@InvoiceID", invoiceID);
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else
+                            {
+                                // Insert invoice
+                                string insertInvoiceSql = "INSERT INTO Invoice (InvoiceID, CustomerID, InvoiceDate, TotalPrice) VALUES (@InvoiceID, @CustomerID, @InvoiceDate, @TotalPrice)";
+                                using (SqlCommand command = new SqlCommand(insertInvoiceSql, connection, transaction))
+                                {
+                                    command.Parameters.AddWithValue("@InvoiceID", invoiceID);
+                                    command.Parameters.AddWithValue("@CustomerID", customerID);
+                                    command.Parameters.AddWithValue("@InvoiceDate", invoiceDate);
+                                    command.Parameters.AddWithValue("@TotalPrice", totalPrice);
+                                    command.ExecuteNonQuery();
+                                }
                             }
 
                             // Insert invoice details
@@ -338,8 +447,8 @@ namespace CuaHangWindowForm.View.HoaDon
                             }
 
                             transaction.Commit();
-                            MessageBox.Show("Hóa đơn đã được thêm thành công");
-                            ClearForm();
+                            MessageBox.Show(_isUpdate ? "Hóa đơn đã được cập nhật thành công" : "Hóa đơn đã được thêm thành công");
+                            this.Close();
                         }
                         catch (Exception)
                         {
@@ -352,22 +461,6 @@ namespace CuaHangWindowForm.View.HoaDon
             catch (Exception ex)
             {
                 MessageBox.Show("Exception: " + ex.Message);
-            }
-        }
-
-
-        private bool InvoiceExists(string invoiceID)
-        {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-                string sql = "SELECT COUNT(*) FROM Invoice WHERE InvoiceID = @InvoiceID";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    command.Parameters.AddWithValue("@InvoiceID", invoiceID);
-                    int count = (int)command.ExecuteScalar();
-                    return count > 0;
-                }
             }
         }
 
@@ -387,14 +480,6 @@ namespace CuaHangWindowForm.View.HoaDon
             this.Close();
         }
 
-        private void ClearForm()
-        {
-            txtInvoiceID.Clear();
-            cmbCustomerID.SelectedIndex = -1;
-            dtpInvoiceDate.Value = DateTime.Now;
-            dataGridViewInvoiceDetails.Rows.Clear();
-            txtTotalPrice.Text = "0.00";
-        }
         private void dataGridViewInvoiceDetails_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             if (dataGridViewInvoiceDetails.Columns[e.ColumnIndex].Name == "Quantity")
@@ -405,23 +490,21 @@ namespace CuaHangWindowForm.View.HoaDon
                     {
                         e.Cancel = true;
                         MessageBox.Show("Số lượng không được nhỏ hơn hoặc bằng 0.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        dataGridViewInvoiceDetails[e.ColumnIndex, e.RowIndex].Value = _previousQuantity;
                     }
                 }
                 else
                 {
                     e.Cancel = true;
                     MessageBox.Show("Vui lòng nhập một số hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    dataGridViewInvoiceDetails[e.ColumnIndex, e.RowIndex].Value = _previousQuantity;
                 }
             }
         }
+
         private void txtInvoiceID_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (char.IsWhiteSpace(e.KeyChar))
             {
                 e.Handled = true;
-                
             }
         }
     }

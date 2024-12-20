@@ -58,8 +58,8 @@ namespace WindowsFormsApp
 
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
-            // Navigate to the Add Product form
-            var addProductForm = new ThemSanPham();
+            // Open the ChinhSuaSanPham form in add mode
+            var addProductForm = new ThemVaChinhSuaSanPham();
             addProductForm.ShowDialog();
             LoadProducts(); // Reload products after adding
         }
@@ -69,7 +69,7 @@ namespace WindowsFormsApp
             if (dataGridViewProducts.SelectedRows.Count > 0)
             {
                 var selectedProduct = (ThongTinSanPham)dataGridViewProducts.SelectedRows[0].DataBoundItem;
-                var editProductForm = new ChinhSuaSanPham(selectedProduct);
+                var editProductForm = new ThemVaChinhSuaSanPham(selectedProduct);
                 editProductForm.ShowDialog();
                 LoadProducts(); // Reload products after editing
             }

@@ -1,6 +1,6 @@
 ﻿namespace CuaHangWindowForm.View.HoaDon
 {
-    partial class ChinhSuaHoaDon
+    partial class ThemVaChinhSuaHoaDon
     {
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Label lblInvoiceID;
@@ -55,9 +55,9 @@
             // 
             this.txtInvoiceID.Location = new System.Drawing.Point(120, 12);
             this.txtInvoiceID.Name = "txtInvoiceID";
-            this.txtInvoiceID.ReadOnly = true;
             this.txtInvoiceID.Size = new System.Drawing.Size(200, 22);
             this.txtInvoiceID.TabIndex = 1;
+            this.txtInvoiceID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtInvoiceID_KeyPress);
             // 
             // lblCustomerID
             // 

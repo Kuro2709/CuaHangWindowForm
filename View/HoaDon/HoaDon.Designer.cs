@@ -91,10 +91,10 @@ namespace CuaHangWindowForm.View.HoaDon
             // contextMenuStripActions
             // 
             this.contextMenuStripActions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-        this.toolStripMenuItemAdd,
-        this.toolStripMenuItemEdit,
-        this.toolStripMenuItemViewDetails,
-        this.toolStripMenuItemDelete});
+                    this.toolStripMenuItemAdd,
+                    this.toolStripMenuItemEdit,
+                    this.toolStripMenuItemViewDetails,
+                    this.toolStripMenuItemDelete});
             this.contextMenuStripActions.Name = "contextMenuStripActions";
             this.contextMenuStripActions.Size = new System.Drawing.Size(181, 114);
             // 
@@ -155,8 +155,5 @@ namespace CuaHangWindowForm.View.HoaDon
             this.contextMenuStripActions.ResumeLayout(false);
             this.ResumeLayout(false);
         }
-
-
-
     }
 }

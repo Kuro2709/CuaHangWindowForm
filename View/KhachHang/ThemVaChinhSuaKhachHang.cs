@@ -6,23 +6,29 @@ using CuaHangWindowForm.Models;
 
 namespace CuaHangWindowForm.View.KhachHang
 {
-    public partial class ChinhSuaKhachHang : Form
+    public partial class ThemVaChinhSuaKhachHang : Form
     {
         private string _connectionString;
         private ThongTinKhachHang _customer;
+        private bool _isUpdate;
 
-        public ChinhSuaKhachHang(ThongTinKhachHang customer)
+        public ThemVaChinhSuaKhachHang(ThongTinKhachHang customer = null)
         {
             InitializeComponent();
             _connectionString = ConfigurationManager.ConnectionStrings["CuaHangWindowForm.Properties.Settings.ConnectionString"].ConnectionString;
             _customer = customer;
+            _isUpdate = customer != null;
         }
 
         private void ChinhSuaKhachHang_Load(object sender, EventArgs e)
         {
-            txtCustomerID.Text = _customer.CustomerID;
-            txtCustomerName.Text = _customer.CustomerName;
-            txtPhone.Text = _customer.Phone;
+            if (_isUpdate)
+            {
+                txtCustomerID.Text = _customer.CustomerID;
+                txtCustomerName.Text = _customer.CustomerName;
+                txtPhone.Text = _customer.Phone;
+                txtCustomerID.ReadOnly = true;
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -42,7 +48,16 @@ namespace CuaHangWindowForm.View.KhachHang
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
-                    string sql = "UPDATE Customer SET CustomerName = @CustomerName, Phone = @Phone WHERE CustomerID = @CustomerID";
+                    string sql;
+                    if (_isUpdate)
+                    {
+                        sql = "UPDATE Customer SET CustomerName = @CustomerName, Phone = @Phone WHERE CustomerID = @CustomerID";
+                    }
+                    else
+                    {
+                        sql = "INSERT INTO Customer (CustomerID, CustomerName, Phone) VALUES (@CustomerID, @CustomerName, @Phone)";
+                    }
+
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@CustomerID", customerID);
@@ -51,8 +66,13 @@ namespace CuaHangWindowForm.View.KhachHang
                         command.ExecuteNonQuery();
                     }
                 }
-                MessageBox.Show("Chỉnh sửa khách hàng thành công");
+
+                MessageBox.Show(_isUpdate ? "Chỉnh sửa khách hàng thành công" : "Khách hàng đã được thêm thành công");
                 this.Close();
+            }
+            catch (SqlException ex) when (ex.Number == 2627) // SQL error code for primary key violation
+            {
+                MessageBox.Show("Mã khách hàng đã tồn tại, xin vui lòng nhập mã mới");
             }
             catch (Exception ex)
             {
@@ -64,6 +84,7 @@ namespace CuaHangWindowForm.View.KhachHang
         {
             this.Close();
         }
+
         private void txtPhone_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Allow only digits and control characters
@@ -72,7 +93,7 @@ namespace CuaHangWindowForm.View.KhachHang
                 e.Handled = true;
             }
 
-            // Limit the length to 10 digits
+            // Limit the length to 15 digits
             if (char.IsDigit(e.KeyChar) && txtPhone.Text.Length >= 15)
             {
                 e.Handled = true;

@@ -57,8 +57,8 @@ namespace WindowsFormsApp
 
         private void btnAddCustomer_Click(object sender, EventArgs e)
         {
-            // Navigate to the Add Customer form
-            var addCustomerForm = new ThemKhachHang();
+            // Open the ChinhSuaKhachHang form in add mode
+            var addCustomerForm = new ThemVaChinhSuaKhachHang();
             addCustomerForm.ShowDialog();
             LoadCustomers(); // Reload customers after adding
         }
@@ -68,7 +68,7 @@ namespace WindowsFormsApp
             if (dataGridViewCustomers.SelectedRows.Count > 0)
             {
                 var selectedCustomer = (ThongTinKhachHang)dataGridViewCustomers.SelectedRows[0].DataBoundItem;
-                var editCustomerForm = new ChinhSuaKhachHang(selectedCustomer);
+                var editCustomerForm = new ThemVaChinhSuaKhachHang(selectedCustomer);
                 editCustomerForm.ShowDialog();
                 LoadCustomers(); // Reload customers after editing
             }

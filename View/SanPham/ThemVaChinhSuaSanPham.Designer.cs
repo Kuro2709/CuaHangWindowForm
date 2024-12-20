@@ -1,8 +1,10 @@
 ﻿namespace CuaHangWindowForm.View.SanPham
 {
-    partial class ChinhSuaSanPham
+    partial class ThemVaChinhSuaSanPham
     {
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Label lblProductID;
+        private System.Windows.Forms.TextBox txtProductID;
         private System.Windows.Forms.Label lblProductName;
         private System.Windows.Forms.TextBox txtProductName;
         private System.Windows.Forms.Label lblPrice;
@@ -22,6 +24,8 @@
 
         private void InitializeComponent()
         {
+            this.lblProductID = new System.Windows.Forms.Label();
+            this.txtProductID = new System.Windows.Forms.TextBox();
             this.lblProductName = new System.Windows.Forms.Label();
             this.txtProductName = new System.Windows.Forms.TextBox();
             this.lblPrice = new System.Windows.Forms.Label();
@@ -32,21 +36,37 @@
             ((System.ComponentModel.ISupportInitialize)(this.numPrice)).BeginInit();
             this.SuspendLayout();
             // 
+            // lblProductID
+            // 
+            this.lblProductID.AutoSize = true;
+            this.lblProductID.Location = new System.Drawing.Point(50, 20);
+            this.lblProductID.Name = "lblProductID";
+            this.lblProductID.Size = new System.Drawing.Size(75, 16);
+            this.lblProductID.TabIndex = 0;
+            this.lblProductID.Text = "Mã sản phẩm";
+            // 
+            // txtProductID
+            // 
+            this.txtProductID.Location = new System.Drawing.Point(200, 20);
+            this.txtProductID.Name = "txtProductID";
+            this.txtProductID.Size = new System.Drawing.Size(200, 22);
+            this.txtProductID.TabIndex = 1;
+            // 
             // lblProductName
             // 
             this.lblProductName.AutoSize = true;
-            this.lblProductName.Location = new System.Drawing.Point(50, 50);
+            this.lblProductName.Location = new System.Drawing.Point(50, 60);
             this.lblProductName.Name = "lblProductName";
             this.lblProductName.Size = new System.Drawing.Size(93, 16);
-            this.lblProductName.TabIndex = 0;
+            this.lblProductName.TabIndex = 2;
             this.lblProductName.Text = "Tên sản phẩm";
             // 
             // txtProductName
             // 
-            this.txtProductName.Location = new System.Drawing.Point(200, 50);
+            this.txtProductName.Location = new System.Drawing.Point(200, 60);
             this.txtProductName.Name = "txtProductName";
             this.txtProductName.Size = new System.Drawing.Size(200, 22);
-            this.txtProductName.TabIndex = 1;
+            this.txtProductName.TabIndex = 3;
             // 
             // lblPrice
             // 
@@ -54,20 +74,20 @@
             this.lblPrice.Location = new System.Drawing.Point(50, 100);
             this.lblPrice.Name = "lblPrice";
             this.lblPrice.Size = new System.Drawing.Size(63, 16);
-            this.lblPrice.TabIndex = 2;
+            this.lblPrice.TabIndex = 4;
             this.lblPrice.Text = "Giá thành";
             // 
             // numPrice
             // 
             this.numPrice.Location = new System.Drawing.Point(200, 100);
             this.numPrice.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
+                1000000,
+                0,
+                0,
+                0});
             this.numPrice.Name = "numPrice";
             this.numPrice.Size = new System.Drawing.Size(200, 22);
-            this.numPrice.TabIndex = 3;
+            this.numPrice.TabIndex = 5;
             this.numPrice.ValueChanged += new System.EventHandler(this.numPrice_ValueChanged);
             // 
             // btnSave
@@ -75,7 +95,7 @@
             this.btnSave.Location = new System.Drawing.Point(200, 150);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 4;
+            this.btnSave.TabIndex = 6;
             this.btnSave.Text = "Lưu";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -85,7 +105,7 @@
             this.btnCancel.Location = new System.Drawing.Point(325, 150);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 5;
+            this.btnCancel.TabIndex = 7;
             this.btnCancel.Text = "Hủy";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -97,7 +117,7 @@
             this.lblMessage.Location = new System.Drawing.Point(50, 200);
             this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(0, 16);
-            this.lblMessage.TabIndex = 6;
+            this.lblMessage.TabIndex = 8;
             // 
             // ChinhSuaSanPham
             // 
@@ -111,6 +131,8 @@
             this.Controls.Add(this.lblPrice);
             this.Controls.Add(this.txtProductName);
             this.Controls.Add(this.lblProductName);
+            this.Controls.Add(this.txtProductID);
+            this.Controls.Add(this.lblProductID);
             this.Name = "ChinhSuaSanPham";
             this.Text = "Chỉnh sửa sản phẩm";
             this.Load += new System.EventHandler(this.ChinhSuaSanPham_Load);

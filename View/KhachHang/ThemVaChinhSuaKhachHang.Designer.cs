@@ -1,6 +1,6 @@
 ﻿namespace CuaHangWindowForm.View.KhachHang
 {
-    partial class ThemKhachHang
+    partial class ThemVaChinhSuaKhachHang
     {
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Label lblCustomerID;
@@ -9,7 +9,7 @@
         private System.Windows.Forms.TextBox txtCustomerID;
         private System.Windows.Forms.TextBox txtCustomerName;
         private System.Windows.Forms.TextBox txtPhone;
-        private System.Windows.Forms.Button btnSubmit;
+        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
 
         protected override void Dispose(bool disposing)
@@ -29,29 +29,27 @@
             this.txtCustomerID = new System.Windows.Forms.TextBox();
             this.txtCustomerName = new System.Windows.Forms.TextBox();
             this.txtPhone = new System.Windows.Forms.TextBox();
-            this.btnSubmit = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblCustomerID
             // 
             this.lblCustomerID.AutoSize = true;
-            this.lblCustomerID.Location = new System.Drawing.Point(12, 12);
+            this.lblCustomerID.Location = new System.Drawing.Point(12, 15);
             this.lblCustomerID.Name = "lblCustomerID";
             this.lblCustomerID.Size = new System.Drawing.Size(98, 16);
             this.lblCustomerID.TabIndex = 0;
             this.lblCustomerID.Text = "Mã khách hàng";
-            this.lblCustomerID.Click += new System.EventHandler(this.lblCustomerID_Click);
             // 
             // lblCustomerName
             // 
             this.lblCustomerName.AutoSize = true;
-            this.lblCustomerName.Location = new System.Drawing.Point(12, 42);
+            this.lblCustomerName.Location = new System.Drawing.Point(12, 45);
             this.lblCustomerName.Name = "lblCustomerName";
             this.lblCustomerName.Size = new System.Drawing.Size(103, 16);
             this.lblCustomerName.TabIndex = 1;
             this.lblCustomerName.Text = "Tên khách hàng";
-            this.lblCustomerName.Click += new System.EventHandler(this.lblCustomerName_Click);
             // 
             // lblPhone
             // 
@@ -68,7 +66,6 @@
             this.txtCustomerID.Name = "txtCustomerID";
             this.txtCustomerID.Size = new System.Drawing.Size(247, 22);
             this.txtCustomerID.TabIndex = 3;
-            this.txtCustomerID.TextChanged += new System.EventHandler(this.txtCustomerID_TextChanged);
             // 
             // txtCustomerName
             // 
@@ -85,15 +82,15 @@
             this.txtPhone.TabIndex = 5;
             this.txtPhone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPhone_KeyPress);
             // 
-            // btnSubmit
+            // btnSave
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(121, 100);
-            this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(93, 24);
-            this.btnSubmit.TabIndex = 6;
-            this.btnSubmit.Text = "Nhập tiếp";
-            this.btnSubmit.UseVisualStyleBackColor = true;
-            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+            this.btnSave.Location = new System.Drawing.Point(121, 100);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(93, 24);
+            this.btnSave.TabIndex = 6;
+            this.btnSave.Text = "Lưu";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
@@ -105,25 +102,26 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // ThemKhachHang
+            // ChinhSuaKhachHang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(380, 140);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnSubmit);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtPhone);
             this.Controls.Add(this.txtCustomerName);
             this.Controls.Add(this.txtCustomerID);
             this.Controls.Add(this.lblPhone);
             this.Controls.Add(this.lblCustomerName);
             this.Controls.Add(this.lblCustomerID);
-            this.Name = "ThemKhachHang";
-            this.Text = "Thêm khách hàng";
-            this.Load += new System.EventHandler(this.ThemKhachHang_Load);
+            this.Name = "ChinhSuaKhachHang";
+            this.Text = "Chỉnh sửa khách hàng";
+            this.Load += new System.EventHandler(this.ChinhSuaKhachHang_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
     }
 }
+
+
