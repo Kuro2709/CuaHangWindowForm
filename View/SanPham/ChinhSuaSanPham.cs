@@ -1,78 +1,99 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using C1.Win.C1Input;
 
 namespace CuaHangWindowForm.View.SanPham
 {
     public partial class ChinhSuaSanPham : Form
     {
+        private string _connectionString;
         private ThongTinSanPham _productInfo;
+        private bool _isUpdate;
 
-        public ChinhSuaSanPham(ThongTinSanPham productInfo)
+        public ChinhSuaSanPham(ThongTinSanPham productInfo = null)
         {
             InitializeComponent();
+            _connectionString = ConfigurationManager.ConnectionStrings["CuaHangWindowForm.Properties.Settings.ConnectionString"].ConnectionString;
             _productInfo = productInfo;
+            _isUpdate = productInfo != null;
         }
 
         private void ChinhSuaSanPham_Load(object sender, EventArgs e)
         {
-            txtProductID.Text = _productInfo.ProductID;
-            txtProductName.Text = _productInfo.ProductName;
-            numPrice.Value = _productInfo.Price;
+            if (_isUpdate)
+            {
+                txtProductID.Text = _productInfo.ProductID;
+                txtProductName.Text = _productInfo.ProductName;
+                numPrice.Value = _productInfo.Price;
+                txtProductID.ReadOnly = true;
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtProductName.Text) || Convert.ToDecimal(numPrice.Value) <= 0)
+            string productID = txtProductID.Text.Trim().ToUpper();
+            string productName = txtProductName.Text.Trim();
+            decimal price = (decimal)numPrice.Value;
+
+            if (string.IsNullOrEmpty(productID) || string.IsNullOrEmpty(productName) || price <= 0)
             {
-                MessageBox.Show("Tất cả các mục không được để trống", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Tất cả các mục đều bắt buộc, không được để trống");
                 return;
             }
 
             try
             {
-                var connectionStringSettings = System.Configuration.ConfigurationManager.ConnectionStrings["CuaHangWindowForm.Properties.Settings.ConnectionString"];
-                if (connectionStringSettings == null)
-                {
-                    MessageBox.Show("Connection string 'CuaHangWindowForm.Properties.Settings.ConnectionString' not found.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                string connectionString = connectionStringSettings.ConnectionString;
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
-                    string sql = "UPDATE Product SET ProductName = @ProductName, Price = @Price WHERE ProductID = @ProductID";
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    if (_isUpdate)
                     {
-                        command.Parameters.AddWithValue("@ProductID", _productInfo.ProductID);
-                        command.Parameters.AddWithValue("@ProductName", txtProductName.Text);
-                        command.Parameters.AddWithValue("@Price", Convert.ToDecimal(numPrice.Value));
-                        command.ExecuteNonQuery();
+                        string sql = "UPDATE Product SET ProductName = @ProductName, Price = @Price WHERE ProductID = @ProductID";
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@ProductID", productID);
+                            command.Parameters.AddWithValue("@ProductName", productName);
+                            command.Parameters.AddWithValue("@Price", price);
+                            command.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Sản phẩm đã được cập nhật thành công");
+                    }
+                    else
+                    {
+                        string sql = "INSERT INTO Product (ProductID, ProductName, Price) VALUES (@ProductID, @ProductName, @Price)";
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@ProductID", productID);
+                            command.Parameters.AddWithValue("@ProductName", productName);
+                            command.Parameters.AddWithValue("@Price", price);
+                            command.ExecuteNonQuery();
+                        }
+                        MessageBox.Show("Sản phẩm đã được thêm thành công");
                     }
                 }
-
-                MessageBox.Show("Sản phẩm đã được cập nhật thành công", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Delay for a short period to show the success message
-                var timer = new Timer();
-                timer.Interval = 1000; // 1 second
-                timer.Tick += (s, args) =>
-                {
-                    timer.Stop();
-                    this.Close(); // Close the current form to return to the product list view
-                };
-                timer.Start();
+                this.Close();
+            }
+            catch (SqlException ex) when (ex.Number == 2627)
+            {
+                MessageBox.Show("Mã sản phẩm đã tồn tại, xin vui lòng nhập mã mới");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Exception: " + ex.Message);
             }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtProductID_TextChanged(object sender, EventArgs e)
+        {
+            txtProductID.Text = txtProductID.Text.ToUpper().Replace(" ", "");
+            txtProductID.SelectionStart = txtProductID.Text.Length;
         }
 
         private void numPrice_ValueChanged(object sender, EventArgs e)

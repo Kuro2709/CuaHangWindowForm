@@ -48,6 +48,7 @@ namespace WindowsFormsApp
 
                 dataGridViewCustomers.DataSource = null;
                 dataGridViewCustomers.DataSource = _customers;
+                dataGridViewCustomers.AutoSizeCols(); // Auto-size columns to fit content
             }
             catch (Exception ex)
             {
@@ -57,8 +58,8 @@ namespace WindowsFormsApp
 
         private void btnAddCustomer_Click(object sender, EventArgs e)
         {
-            // Navigate to the Add Customer form
-            var addCustomerForm = new ThemKhachHang();
+            // Navigate to the Add/Edit Customer form
+            var addCustomerForm = new ThemVaChinhSuaKhachHang();
             addCustomerForm.ShowDialog();
             LoadCustomers(); // Reload customers after adding
         }
@@ -68,7 +69,7 @@ namespace WindowsFormsApp
             if (dataGridViewCustomers.RowSel > 0)
             {
                 var selectedCustomer = (ThongTinKhachHang)dataGridViewCustomers.Rows[dataGridViewCustomers.RowSel].DataSource;
-                var editCustomerForm = new ChinhSuaKhachHang(selectedCustomer);
+                var editCustomerForm = new ThemVaChinhSuaKhachHang(selectedCustomer);
                 editCustomerForm.ShowDialog();
                 LoadCustomers(); // Reload customers after editing
             }

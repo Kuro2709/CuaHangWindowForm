@@ -15,21 +15,30 @@ namespace CuaHangWindowForm.View.HoaDon
         private readonly ThongTinHoaDon _invoice;
         private List<ThongTinKhachHang> _customers;
         private List<ThongTinSanPham> _products;
+        private bool _isUpdate;
 
-        public ChinhSuaHoaDon(ThongTinHoaDon invoice)
+        public ChinhSuaHoaDon(ThongTinHoaDon invoice = null)
         {
             InitializeComponent();
             _connectionString = ConfigurationManager.ConnectionStrings["CuaHangWindowForm.Properties.Settings.ConnectionString"].ConnectionString;
             _invoice = invoice;
+            _isUpdate = invoice != null;
         }
 
         private void ChinhSuaHoaDon_Load(object sender, EventArgs e)
         {
             LoadCustomers();
             LoadProducts();
-            LoadInvoiceDetails();
-
-            
+            if (_isUpdate)
+            {
+                LoadInvoiceDetails();
+                txtInvoiceID.ReadOnly = true;
+            }
+            else
+            {
+                InitializeInvoiceDetailsGrid();
+                dtpInvoiceDate.Value = DateTime.Now;
+            }
         }
 
         private void LoadCustomers()
@@ -62,7 +71,10 @@ namespace CuaHangWindowForm.View.HoaDon
                     cmbCustomerID.Items.Add(customer);
                 }
 
-                cmbCustomerID.SelectedItem = _customers.FirstOrDefault(c => c.CustomerID == _invoice.CustomerID);
+                if (_isUpdate)
+                {
+                    cmbCustomerID.SelectedItem = _customers.FirstOrDefault(c => c.CustomerID == _invoice.CustomerID);
+                }
             }
             catch (Exception ex)
             {
@@ -104,7 +116,6 @@ namespace CuaHangWindowForm.View.HoaDon
         private void LoadInvoiceDetails()
         {
             txtInvoiceID.Text = _invoice.InvoiceID;
-            txtInvoiceID.ReadOnly = true; // Ensure the InvoiceID is read-only
             dtpInvoiceDate.Value = _invoice.InvoiceDate;
             txtTotalPrice.Text = _invoice.TotalPrice.ToString("0.00");
 
@@ -362,7 +373,7 @@ namespace CuaHangWindowForm.View.HoaDon
 
                 var detail = new ThongTinChiTietHoaDon
                 {
-                    InvoiceID = _invoice.InvoiceID,
+                    InvoiceID = _isUpdate ? _invoice.InvoiceID : txtInvoiceID.Text.Trim().ToUpper(),
                     ProductID = productID,
                     Quantity = quantity,
                     TotalPrice = totalPrice
@@ -385,23 +396,39 @@ namespace CuaHangWindowForm.View.HoaDon
                     {
                         try
                         {
-                            // Update invoice
-                            string updateInvoiceSql = "UPDATE Invoice SET CustomerID = @CustomerID, InvoiceDate = @InvoiceDate, TotalPrice = @TotalPrice WHERE InvoiceID = @InvoiceID";
-                            using (SqlCommand command = new SqlCommand(updateInvoiceSql, connection, transaction))
+                            if (_isUpdate)
                             {
-                                command.Parameters.AddWithValue("@InvoiceID", _invoice.InvoiceID);
-                                command.Parameters.AddWithValue("@CustomerID", customerID);
-                                command.Parameters.AddWithValue("@InvoiceDate", invoiceDate);
-                                command.Parameters.AddWithValue("@TotalPrice", totalInvoicePrice);
-                                command.ExecuteNonQuery();
-                            }
+                                // Update invoice
+                                string updateInvoiceSql = "UPDATE Invoice SET CustomerID = @CustomerID, InvoiceDate = @InvoiceDate, TotalPrice = @TotalPrice WHERE InvoiceID = @InvoiceID";
+                                using (SqlCommand command = new SqlCommand(updateInvoiceSql, connection, transaction))
+                                {
+                                    command.Parameters.AddWithValue("@InvoiceID", _invoice.InvoiceID);
+                                    command.Parameters.AddWithValue("@CustomerID", customerID);
+                                    command.Parameters.AddWithValue("@InvoiceDate", invoiceDate);
+                                    command.Parameters.AddWithValue("@TotalPrice", totalInvoicePrice);
+                                    command.ExecuteNonQuery();
+                                }
 
-                            // Delete existing details
-                            string deleteDetailsSql = "DELETE FROM InvoiceDetails WHERE InvoiceID = @InvoiceID";
-                            using (SqlCommand command = new SqlCommand(deleteDetailsSql, connection, transaction))
+                                // Delete existing details
+                                string deleteDetailsSql = "DELETE FROM InvoiceDetails WHERE InvoiceID = @InvoiceID";
+                                using (SqlCommand command = new SqlCommand(deleteDetailsSql, connection, transaction))
+                                {
+                                    command.Parameters.AddWithValue("@InvoiceID", _invoice.InvoiceID);
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                            else
                             {
-                                command.Parameters.AddWithValue("@InvoiceID", _invoice.InvoiceID);
-                                command.ExecuteNonQuery();
+                                // Insert new invoice
+                                string insertInvoiceSql = "INSERT INTO Invoice (InvoiceID, CustomerID, InvoiceDate, TotalPrice) VALUES (@InvoiceID, @CustomerID, @InvoiceDate, @TotalPrice)";
+                                using (SqlCommand command = new SqlCommand(insertInvoiceSql, connection, transaction))
+                                {
+                                    command.Parameters.AddWithValue("@InvoiceID", txtInvoiceID.Text.Trim().ToUpper());
+                                    command.Parameters.AddWithValue("@CustomerID", customerID);
+                                    command.Parameters.AddWithValue("@InvoiceDate", invoiceDate);
+                                    command.Parameters.AddWithValue("@TotalPrice", totalInvoicePrice);
+                                    command.ExecuteNonQuery();
+                                }
                             }
 
                             // Insert updated details
@@ -419,7 +446,7 @@ namespace CuaHangWindowForm.View.HoaDon
                             }
 
                             transaction.Commit();
-                            MessageBox.Show("Hóa đơn đã được cập nhật thành công");
+                            MessageBox.Show(_isUpdate ? "Hóa đơn đã được cập nhật thành công" : "Hóa đơn đã được thêm thành công");
                             this.Close();
                         }
                         catch

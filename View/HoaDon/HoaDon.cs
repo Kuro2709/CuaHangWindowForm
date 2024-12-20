@@ -64,7 +64,6 @@ namespace CuaHangWindowForm.View.HoaDon
                 dataGridViewInvoices.Cols[3].Caption = "Tổng giá";
                 dataGridViewInvoices.Cols[3].Name = "TotalPrice";
                 dataGridViewInvoices.Cols[3].DataType = typeof(decimal);
-
             }
             catch (Exception ex)
             {
@@ -72,11 +71,10 @@ namespace CuaHangWindowForm.View.HoaDon
             }
         }
 
-
         private void btnAddInvoice_Click(object sender, EventArgs e)
         {
-            // Navigate to the Add Invoice form
-            var addInvoiceForm = new ThemHoaDon();
+            // Navigate to the Add/Edit Invoice form
+            var addInvoiceForm = new ChinhSuaHoaDon();
             addInvoiceForm.ShowDialog();
             LoadInvoices(); // Reload invoices after adding
         }

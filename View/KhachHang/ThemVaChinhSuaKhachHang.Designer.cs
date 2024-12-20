@@ -1,6 +1,6 @@
 ﻿namespace CuaHangWindowForm.View.KhachHang
 {
-    partial class ChinhSuaKhachHang
+    partial class ThemVaChinhSuaKhachHang
     {
         private System.ComponentModel.IContainer components = null;
         private C1.Win.C1Input.C1Label lblCustomerID;
@@ -82,13 +82,13 @@
             this.txtCustomerID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCustomerID.Location = new System.Drawing.Point(121, 12);
             this.txtCustomerID.Name = "txtCustomerID";
-            this.txtCustomerID.ReadOnly = true;
             this.txtCustomerID.Size = new System.Drawing.Size(247, 20);
             this.txtCustomerID.TabIndex = 3;
             this.txtCustomerID.Tag = null;
             this.txtCustomerID.TextDetached = true;
             this.txtCustomerID.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             this.txtCustomerID.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.txtCustomerID.TextChanged += new System.EventHandler(this.txtCustomerID_TextChanged);
             // 
             // txtCustomerName
             // 
@@ -113,6 +113,7 @@
             this.txtPhone.TextDetached = true;
             this.txtPhone.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             this.txtPhone.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.txtPhone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPhone_KeyPress);
             // 
             // btnSave
             // 

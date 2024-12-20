@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Windows.Forms;
-using CuaHangWindowForm.Models;
-using CuaHangWindowForm.View;
 using CuaHangWindowForm.View.SanPham;
 using C1.Win.C1FlexGrid;
 
@@ -63,8 +61,8 @@ namespace WindowsFormsApp
 
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
-            // Navigate to the Add Product form
-            var addProductForm = new ThemSanPham();
+            // Navigate to the Add/Edit Product form
+            var addProductForm = new ChinhSuaSanPham();
             addProductForm.ShowDialog();
             LoadProducts(); // Reload products after adding
         }

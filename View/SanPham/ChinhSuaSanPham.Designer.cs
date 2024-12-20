@@ -58,13 +58,13 @@
             this.txtProductID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtProductID.Location = new System.Drawing.Point(200, 20);
             this.txtProductID.Name = "txtProductID";
-            this.txtProductID.ReadOnly = true;
             this.txtProductID.Size = new System.Drawing.Size(200, 20);
             this.txtProductID.TabIndex = 1;
             this.txtProductID.Tag = null;
             this.txtProductID.TextDetached = true;
             this.txtProductID.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
             this.txtProductID.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.txtProductID.TextChanged += new System.EventHandler(this.txtProductID_TextChanged);
             // 
             // lblProductName
             // 
@@ -115,15 +115,15 @@
             this.numPrice.Location = new System.Drawing.Point(200, 100);
             this.numPrice.Name = "numPrice";
             this.numPrice.PostValidation.Intervals.AddRange(new C1.Win.C1Input.ValueInterval[] {
-                new C1.Win.C1Input.ValueInterval(new decimal(new int[] {
-                                1,
-                                0,
-                                0,
-                                0}), new decimal(new int[] {
-                                1000000,
-                                0,
-                                0,
-                                0}), true, true)});
+                    new C1.Win.C1Input.ValueInterval(new decimal(new int[] {
+                                    1,
+                                    0,
+                                    0,
+                                    0}), new decimal(new int[] {
+                                    100000000,
+                                    0,
+                                    0,
+                                    0}), true, true)});
             this.numPrice.Size = new System.Drawing.Size(200, 20);
             this.numPrice.TabIndex = 5;
             this.numPrice.Tag = null;
